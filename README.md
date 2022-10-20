@@ -1,6 +1,6 @@
 # OpenFlights-CS225-FinalProject
 
-**Team Contract
+**Team Contract**
 
 **Communication
 
@@ -33,9 +33,9 @@ In case of any conflicts or disagreements between the group, we will vote by maj
 **Signatures
 
 Aryan Malhotra - aryanm8
-Aamir Hafiz - ahafi2
-Alexis Serrano - aserr3
-Lorenzo Bujalil Silva - lorenzo9
 
-Restore original file
-Save
+Aamir Hafiz - ahafi2
+
+Alexis Serrano - aserr3
+
+Lorenzo Bujalil Silva - lorenzo9
