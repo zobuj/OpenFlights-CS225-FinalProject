@@ -1,7 +1,9 @@
 # OpenFlights-CS225-FinalProject
 
 Team Contract
+
 Communication
+
 Team Meetings
 
 The group will meet every Friday in the afternoon at a time that suits every person. If we can't find a suitable time, we will work out a time in the evening. Thr group will meet once a week, and each meeting should last atleast an hour. We will be making use of Github, VS Code, and Google Docs. Our Google Doc will keep track of team notes.
@@ -15,6 +17,7 @@ Respect
 We'll assign every team member critical tasks for the week, so they have sufficient work to do and are involved in team discussions. To ensure that there is mutual respect, we will take conflicting decisions by majority.
 
 Collaboration
+
 Work Distribution
 
 Each week, we will assign a particular task to each member, and we will commuicate on discord or during the weekly meetings to deal with any unforeseen issues.
@@ -28,9 +31,14 @@ Conflict Resolution
 In case of any conflicts or disagreements between the group, we will vote by majority and take the final decision. We agree that the team will be respectful and make the right decisions.
 
 Signatures
+
 Aryan Malhotra - aryanm8
+
 Aamir Hafiz - ahafi2
+
 Alexis Serrano - aserr3
+
 Lorenzo Bujalil Silva - lorenzo9
+
 Restore original file
 Save
