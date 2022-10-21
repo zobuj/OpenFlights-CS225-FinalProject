@@ -2,7 +2,7 @@
 
 # Team Contract
 
-##Communication
+## Communication
 
 **Team Meetings**
 
@@ -16,7 +16,7 @@ We will be using Discord for team communication, and each member should reply wi
 
 We'll assign every team member critical tasks for the week, so they have sufficient work to do and are involved in team discussions. To ensure that there is mutual respect, we will take conflicting decisions by majority.
 
-##Collaboration
+## Collaboration
 
 **Work Distribution**
 
@@ -30,7 +30,7 @@ Each member will do at least 3 hours of work each week, apart from the weekly me
 
 In case of any conflicts or disagreements between the group, we will vote by majority and take the final decision. We agree that the team will be respectful and make the right decisions.
 
-##Signatures
+## Signatures
 
 Aryan Malhotra - aryanm8
 
