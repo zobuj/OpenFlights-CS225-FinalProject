@@ -33,11 +33,11 @@ Our first function would build the graph from the csv input file that contains n
 
 ## Function Inputs
 
-Our first function will have the two CSV files, airport.dat and routes.dat as inputs and will build the graph based on the given nodes and edges. The second major function will take the source node and target node as an input and check if there exists a path using DFS. Thirdly, the final Dijkstra’s algorithm will take the source and target nodes as an input to locate the shortest path that exists between the source and target nodes. Lastly, our graphical output function will take in the connected graph and output it using an API.
+Our first function will have the two CSV files, airport.dat and routes.dat as inputs and will build the graph based on the given nodes and edges. The second major function will take the source node and target node as an input and check if there exists a path using DFS. Thirdly, the final Dijkstra’s algorithm will take the source and target nodes as an input to locate the shortest path that exists between the source and target nodes. Lastly, our graphical output function will take in the connected graph created before in order to draw accordingly on the PNG.
 
 ## Function Outputs
 
-Our first function will create airport nodes and establish connections between them using routes.dat. We might store the airports in a vector to access them in O(1) time.We will also have an airport subclass and we will assign values to the instance variables with the first airport as the root/start node of the graph. Each Airport object will have the Airport ID, Name, Latitude, Longitude, and a vector of neighbor airports. The second function will output a boolean to check if the source and target nodes exist, and the third one will output the length of the shortest path between the source and target node. The fourth one will output the graph on an API. 
+Our first function will create airport nodes and establish connections between them using routes.dat. We might store the airports in a vector to access them in O(1) time.We will also have an airport subclass and we will assign values to the instance variables with the first airport as the root/start node of the graph. Each Airport object will have the Airport ID, Name, Latitude, Longitude, and a vector of neighbor airports. The second function will output a boolean to check if the source and target nodes exist, and the third one will output the length of the shortest path between the source and target node. The fourth one will output the graph by changing the color of pixels on a PNG. 
 
 
 ## Function Efficiency
