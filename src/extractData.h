@@ -4,7 +4,3 @@
 #include <string>
 using namespace std;
 void readData();
-class C {
-    public:
-        void help();
-};
