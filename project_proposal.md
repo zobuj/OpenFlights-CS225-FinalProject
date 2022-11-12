@@ -29,7 +29,7 @@ We will store the dat files locally, on our machines. This is enough for our tas
 
 ## Graph Algorithms
 
-Our first function would build the graph from the csv input file that contains nodes and edges. After building our graph with all nodes as airports and establishing edge connections, we will be using DFS to check if the source and target nodes exist. If they exist, Dijkstra's algorithm finds the distance between a target node and the current source node. We will finally graphically project our created graph onto a world map using map API. The map will show each airport and the connections that it has to the rest of the airports. Once the shortest path between two airports is found, we will highlight the edges for that path.
+Our first function would build the graph from the csv input file that contains nodes and edges. After building our graph with all nodes as airports and establishing edge connections, we will be using DFS to check if the source and target nodes exist. If they exist, Dijkstra's algorithm finds the distance between a target node and the current source node. We will finally graphically project our created graph onto a world map using a change of basis algorithm. The map will show each airport and the connections that it has to the rest of the airports. Once the shortest path between two airports is found, we will highlight the edges for that path. The change of basis algorithm is one that will transform airport coordinates into pixel locations on a PNG file, which will be the final output.
 
 ## Function Inputs
 
