@@ -1,5 +1,3 @@
-# OpenFlights-CS225-FinalProject
-
 # Team Contract
 
 ## Communication
