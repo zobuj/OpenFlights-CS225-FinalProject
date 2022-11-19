@@ -3,6 +3,9 @@
 #include <iostream>
 using namespace std;
 int main() {
-    readData();
+    Project init;
+    init.readRoutes();
+    init.readAirports();
+    init.createAdjacencyList();
     return 0;
 }
