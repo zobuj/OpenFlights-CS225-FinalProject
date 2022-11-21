@@ -13,7 +13,12 @@ void readData() {
     ifstream ifs;
     //Make it your own absolute path. We'll find a fix later
     // ifs.open("/Users/aryanmalhotra/Desktop/cs225project/OpenFlights-CS225-FinalProject/src/firstRoutes.dat");
-    ifs.open("/Users/aryanmalhotra/Desktop/cs225project/OpenFlights-CS225-FinalProject/data/raw/routes.dat");
+    ifs.open("C:\Users\Aamir\Desktop\CS225 Final Project\OpenFlights-CS225-FinalProject\data\sample\firstRoutes.dat");
+    ofstream ofs;
+    ofs.open("../data/from_to.dat");
+    // if this does not work, do absolute path
+    ofs << "Writing this to a file,\n";
+    ofs.close();
     if (ifs.is_open()) {
         while(getline(ifs,line)) {
             //Filter data
@@ -21,8 +26,13 @@ void readData() {
             string temp = "";
             for (unsigned i = 0; i < line.length(); i++) {
                 if (line.substr(i,1) == ",") {
-                    if (from.size() == to.size() && count == 2) from.push_back(temp);
-                    else if (count == 4) to.push_back(temp);
+                    if (from.size() == to.size() && count == 2) {
+                        from.push_back(temp);
+
+                    }
+                    else if (count == 4) {
+                        to.push_back(temp);
+                    }
                     temp = "";
                     count++;
                 } else if (count == 2 || count == 4) {
