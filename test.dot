@@ -1,4 +1,7 @@
 digraph {
+layout=twopi
+ranksep=3;
+ratio=auto;
 1->3
 1->4
 1->2

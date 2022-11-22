@@ -117,6 +117,10 @@ void Project::savePNG(string title) const
     string filename = title + ".dot";
     neatoFile.open(filename.c_str());
     neatoFile<<"digraph {\n";
+    neatoFile<<"layout=twopi\n"
+                <<"ranksep=3;\n"
+                <<"ratio=auto;\n";
+    //neatoFile<<"node [shape = circle];\n";
     int cap = 0;
     for (auto x = adjacencyLists.begin(); x != adjacencyLists.end() && cap < 100; ++x) {
         // x shoudl be a pair of int and vector
@@ -135,7 +139,7 @@ void Project::savePNG(string title) const
 
 
     neatoFile.close();
-    string command = "dot "+ title +".dot -Tpng -o test.png";
+    string command = "circo -Tpng "+ title +".dot -o test.png";
     int result = system(command.c_str());
 
 
