@@ -93,6 +93,25 @@ void Project::createAdjacencyList() {
     //     cout << adjacencyLists[1][i] << "   ";
     // }
 }
+//DFS for the graph components
+void Project::DFS(int v) {
+    int cap = 0;
+    for (auto x = adjacencyLists.begin(); x != adjacencyLists.end() && cap < 100; ++x)  {
+        verticesLabel[x->first] = false; 
+        cap++;
+    }
+    DFSHelper(v);
+}
+void Project::DFSHelper(int v) {
+    verticesLabel[v] = true;
+    std::cout << to_string(v) << " ";
+    for (auto x = adjacencyLists[v].begin(); x != adjacencyLists[v].end(); ++x)  {
+        if (!verticesLabel[*x]) {
+            DFSHelper(*x);
+        }
+    }
+
+}
 
 // bool DFS(int from, int to) {
 //     // for dfs I'll need a stack,
