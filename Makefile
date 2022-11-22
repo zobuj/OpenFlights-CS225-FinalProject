@@ -1,6 +1,14 @@
-INCLUDES=-I src/ -I includes/
-CXXFLAGS=-std=c++20 -stdlib=libc++ -lc++abi -g -O0 \
--Wall -Wextra -Werror -pedantic $(INCLUDES)
 CXX=clang++
-bin/main.out: src/main.cpp
-$(CXX) $(CXXFLAGS) src/main.cpp -o bin/main.out
+INCLUDES=-Iincludes/
+CXX_FLAGS=-std=c++20 -g -fstandalone-debug -Wall -Wextra -Werror -pedantic $(INCLUDES)
+
+
+exec: bin/exec
+
+bin/exec: src/main.cpp src/extractData.cpp src/extractData.h 
+	${CXX} ${CXX_FLAGS} src/main.cpp src/extractData.cpp -o bin/exec
+
+.PHONY: clean exec 
+
+clean:
+		rm -fr bin/*
