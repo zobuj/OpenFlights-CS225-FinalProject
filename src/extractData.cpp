@@ -6,8 +6,9 @@ void Project::readRoutes() {
     ifstream ifs;
     //Make it your own absolute path. We'll find a fix later
     // ifs.open("/Users/aryanmalhotra/Desktop/cs225project/OpenFlights-CS225-FinalProject/src/firstRoutes.dat");
-    ifs.open("/Users/aryanmalhotra/Desktop/cs225project/OpenFlights-CS225-FinalProject/data/raw/routes.dat");
+    ifs.open("/workspaces/cs225/revised/release-f22/CS225-final/OpenFlights-CS225-FinalProject/src/firstRoutes.dat");
     if (ifs.is_open()) {
+        cout << "ifs is open"<<endl;
         int t = 0;
         while(getline(ifs,line)) {
             //Filter data
@@ -37,6 +38,7 @@ void Project::readRoutes() {
     }
     cout << "Count From: " << from.size() << endl;
     cout << "Count To: " << to.size() << endl;
+    // print statement
     // for (int i = 0; i < (int) from.size(); i++) {
     //     cout << "From: " << from[i] << "    To: " << to[i] << endl;
     // }
@@ -45,7 +47,7 @@ void Project::readRoutes() {
 void Project::readAirports() {
     string record;
     ifstream airport_csv;
-    airport_csv.open("/Users/aryanmalhotra/Desktop/cs225project/OpenFlights-CS225-FinalProject/data/raw/airports.dat");
+    airport_csv.open("OpenFlights-CS225-FinalProject/data/airports.dat");
     if (airport_csv.is_open()) {
         while (getline(airport_csv, record)) {
             int quotes = 0;
