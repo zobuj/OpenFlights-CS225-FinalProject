@@ -118,22 +118,33 @@ void Project::savePNG(string title) const
     neatoFile.open(filename.c_str());
     neatoFile<<"digraph {\n";
     neatoFile<<"layout=twopi\n"
+                <<"normalize=true\n"
                 <<"ranksep=3;\n"
                 <<"ratio=auto;\n";
     //neatoFile<<"node [shape = circle];\n";
     int cap = 0;
+    int localcount=0;
+    int maxcount=0;
+    int maxNode=0;
     for (auto x = adjacencyLists.begin(); x != adjacencyLists.end() && cap < 100; ++x) {
         // x shoudl be a pair of int and vector
-        
+        localcount=0;
         for (unsigned i = 0; i < x->second.size() && i < 100;++i) {
             neatoFile << (x->first)<<"->";
             neatoFile << x->second[i] << "\n";
+            localcount++;
+        }
+        if(localcount>maxcount){
+            maxcount=localcount;
+            maxNode=x->first;
         }
         if(x->second.size()==0){
             neatoFile<<(x->first)<<"\n";
         }
         cap++;
     }
+    cout<<maxNode<<endl;
+    neatoFile<<"root=49;";
     neatoFile<<"}";
 
 
