@@ -1,12 +1,12 @@
 #include "extractData.h"
 
 
-void Project::readRoutes() {
+void Project::readRoutes(string path) {
     string line;
     ifstream ifs;
     //Make it your own absolute path. We'll find a fix later
     // ifs.open("/Users/aryanmalhotra/Desktop/cs225project/OpenFlights-CS225-FinalProject/src/firstRoutes.dat");
-    ifs.open("/workspaces/cs225/revised/release-f22/CS225-final/OpenFlights-CS225-FinalProject/src/firstRoutes.dat");
+    ifs.open(path);
     if (ifs.is_open()) {
         cout << "ifs is open"<<endl;
         int t = 0;
@@ -32,7 +32,7 @@ void Project::readRoutes() {
                     temp += line[i];
                 }
             }
-            cout << "Err: " << t <<endl;
+            // cout << "Err: " << t <<endl;
         }
         ifs.close();
     }
@@ -44,10 +44,11 @@ void Project::readRoutes() {
     // }
 }
 
-void Project::readAirports() {
+void Project::readAirports(string path) {
     string record;
     ifstream airport_csv;
-    airport_csv.open("OpenFlights-CS225-FinalProject/data/airports.dat");
+    // replace with absolute path of your own
+    airport_csv.open(path);
     if (airport_csv.is_open()) {
         while (getline(airport_csv, record)) {
             int quotes = 0;
@@ -70,8 +71,8 @@ void Project::readAirports() {
     }
     // for (int i = 0; i < (int) airports.size(); i++) {
     //     cout << "Airport: " << airports[i] <<  endl;
-        // cout << "Latitude: " << latitudes[i] <<  endl;
-        // cout << "Longitude: " << longitudes[i] <<  endl;
+    //     cout << "Latitude: " << latitudes[i] <<  endl;
+    //     cout << "Longitude: " << longitudes[i] <<  endl;
     // }
     // cout << "Size: " << airports.size() << endl;
 }
@@ -88,7 +89,24 @@ void Project::createAdjacencyList() {
             adjacencyLists[from[i]].push_back(to[i]); //routes are directional
         }
     }
-    for (int i = 0; i < (int) adjacencyLists[1].size(); i++) {
-        cout << adjacencyLists[1][i] << "   ";
+    // for (int i = 0; i < (int) adjacencyLists[1].size(); i++) {
+    //     cout << adjacencyLists[1][i] << "   ";
+    // }
+}
+
+// bool DFS(int from, int to) {
+//     // for dfs I'll need a stack,
+//     DFSHelper(from, to);
+// }
+void Project::printMap() {
+    int cap = 0;
+    for (auto x = adjacencyLists.begin(); x != adjacencyLists.end() && cap < 100; ++x) {
+        // x shoudl be a pair of int and vector
+        cout << x->first << " Neighhbors: ";
+        for (unsigned i = 0; i < x->second.size() && i < 100;++i) {
+            cout << x->second[i] << " ";
+        }
+        cout << endl;
+        cap++;
     }
 }

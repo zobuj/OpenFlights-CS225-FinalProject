@@ -14,9 +14,12 @@ class Project {
         vector<double> longitudes;
         vector<int> airports;
         map<int, vector<int>> adjacencyLists;
-
+        bool DFSHelper(int from, int to);
     public:
-        void readRoutes();
-        void readAirports();
+        void readRoutes(string path);
+        void readAirports(string path);
         void createAdjacencyList();
+        void printMap();
+        bool DFS(int from, int to);
+        // to implement
 };
