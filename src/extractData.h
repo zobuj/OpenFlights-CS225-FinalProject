@@ -5,6 +5,24 @@
 #include <map>
 #include <vector>
 
+
+#include <list>
+#include <unordered_map>
+#include <utility>
+#include <algorithm>
+
+#include <cstdlib>
+#include <climits>
+
+
+#include <iomanip>
+#include <set>
+#include <sstream>
+
+
+
+
+
 using namespace std;
 class Project {
     private:
@@ -20,6 +38,7 @@ class Project {
         void readAirports(string path);
         void createAdjacencyList();
         void printMap();
+        void savePNG(string title) const;
         bool DFS(int from, int to);
         // to implement
 };

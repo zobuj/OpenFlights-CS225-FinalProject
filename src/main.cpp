@@ -1,12 +1,17 @@
 #include "extractData.h"
+
 #include <fstream>
 #include <iostream>
 using namespace std;
 int main() {
     Project init;
     // cout << "made project: " << endl;
-    string routes_path = "/workspaces/cs225/revised/release-f22/CS225-final/OpenFlights-CS225-FinalProject/data/sample/sampleroutes.dat";
-    string airports_path = "/workspaces/cs225/revised/release-f22/CS225-final/OpenFlights-CS225-FinalProject/data/sample/sampleairpots.dat";
+    string routes_path = "/workspaces/cs225/release-f22/release-f22/Final Project/OpenFlights-CS225-FinalProject/data/raw/routes.dat";
+    string airports_path = "/workspaces/cs225/release-f22/release-f22/Final Project/OpenFlights-CS225-FinalProject/data/raw/airports.dat";
+
+    //Amir Path
+    /*string routes_path = "/workspaces/cs225/revised/release-f22/CS225-final/OpenFlights-CS225-FinalProject/data/sample/sampleroutes.dat";
+    string airports_path = "/workspaces/cs225/revised/release-f22/CS225-final/OpenFlights-CS225-FinalProject/data/sample/sampleairpots.dat";*/
     
     init.readRoutes(routes_path);
     
@@ -16,6 +21,7 @@ int main() {
     init.createAdjacencyList();
 
     init.printMap();
+    init.savePNG("test");
     // should get output that matches DISCORD SCREENSHOT
     return 0;
 }

@@ -110,3 +110,38 @@ void Project::printMap() {
         cap++;
     }
 }
+
+void Project::savePNG(string title) const
+{
+    std::ofstream neatoFile;
+    string filename = title + ".dot";
+    neatoFile.open(filename.c_str());
+    neatoFile<<"digraph {\n";
+    int cap = 0;
+    for (auto x = adjacencyLists.begin(); x != adjacencyLists.end() && cap < 100; ++x) {
+        // x shoudl be a pair of int and vector
+        
+        for (unsigned i = 0; i < x->second.size() && i < 100;++i) {
+            neatoFile << (x->first)<<"->";
+            neatoFile << x->second[i] << "\n";
+        }
+        if(x->second.size()==0){
+            neatoFile<<(x->first)<<"\n";
+        }
+        cap++;
+    }
+    neatoFile<<"}";
+
+
+
+    neatoFile.close();
+    string command = "dot "+ title +".dot -Tpng -o test.png";
+    int result = system(command.c_str());
+
+
+    if (result == 0) {
+        cout << "Output graph saved as " << title << ".png" << endl;
+    } else {
+        cout << "Failed to generate visual output graph using `neato`. Run `make install_graphviz` first to install dependencies." << endl;
+    }
+}
