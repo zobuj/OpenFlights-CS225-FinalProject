@@ -1,4 +1,5 @@
 #include "extractData.h"
+
 #include <fstream>
 #include <iostream>
 using namespace std;
@@ -16,6 +17,9 @@ int main() {
     init.createAdjacencyList();
 
     init.printMap();
+    init.savePNG("test");
     // should get output that matches DISCORD SCREENSHOT
+    //Testing simple DFS given a source code
+    init.DFS(9);
     return 0;
 }
