@@ -138,9 +138,9 @@ void Project::savePNG(string title) const
             maxcount=localcount;
             maxNode=x->first;
         }
-        if(x->second.size()==0){
+        /*if(x->second.size()==0){
             neatoFile<<(x->first)<<"\n";
-        }
+        }*/
         cap++;
     }
     cout<<maxNode<<endl;
@@ -158,5 +158,12 @@ void Project::savePNG(string title) const
         cout << "Output graph saved as " << title << ".png" << endl;
     } else {
         cout << "Failed to generate visual output graph using `neato`. Run `make install_graphviz` first to install dependencies." << endl;
+    }
+}
+
+void Project::printTo(){
+    
+    for(size_t i=0;i<to.size();i++){
+        std::cout<<from[i]<<" -> "<<to[i]<<std::endl;
     }
 }

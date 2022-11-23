@@ -39,6 +39,7 @@ class Project {
         void createAdjacencyList();
         void printMap();
         void savePNG(string title) const;
+        void printTo();
         bool DFS(int from, int to);
         // to implement
 };
