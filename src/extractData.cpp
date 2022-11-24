@@ -58,8 +58,8 @@ void Project::readAirports(string path) {
                 if (record.substr(i,1) == "\"") quotes++;
                 if (record.substr(i,1) == "," && quotes % 2 == 0) {
                     if (count == 0) airports.push_back(stoi(temp));
-                    else if (count == 6) latitudes.push_back(stod(temp));
-                    else if (count == 7) longitudes.push_back(stod(temp));
+                    else if (count == 6) latitudes.insert(std::pair<int, double>(airports.back(), stod(temp)));
+                    else if (count == 7) longitudes.insert(std::pair<int, double>(airports.back(), stod(temp)));
                     temp = "";
                     count++;
                 } else if (count == 0 || count == 6 || count == 7) {
@@ -162,5 +162,24 @@ void Project::savePNG(string title) const
         cout << "Output graph saved as " << title << ".png" << endl;
     } else {
         cout << "Failed to generate visual output graph using `neato`. Run `make install_graphviz` first to install dependencies." << endl;
+    }
+}
+
+double Project::calculateDistance(double latFrom, double longFrom, double latTo, double longTo) {
+    return sqrt(((latFrom - latTo) * (latFrom - latTo)) + ((longFrom - longTo) * (longFrom - longTo)));
+}
+
+void Project::createEdgeWeights() {
+    for (int i = 0; i < (int) from.size(); i++) {
+        vector<int> temp = {from[i], to[i]};
+        if (latitudes.find(from[i]) != latitudes.end() && latitudes.find(to[i]) != latitudes.end()) {
+            if (longitudes.find(from[i]) != longitudes.end() && longitudes.find(to[i]) != longitudes.end()) {
+                double weight = calculateDistance(latitudes[from[i]], longitudes[from[i]], latitudes[to[i]], longitudes[to[i]]);
+                edgesLabel.insert(pair<vector<int>, double>(temp, weight));
+            }
+        }
+    }
+    for (auto it = edgesLabel.begin(); it != edgesLabel.end(); it++) {
+        cout << "From: " << it->first[0] << "   To :" << it->first[1] << "    Weight: " << it->second << endl;
     }
 }

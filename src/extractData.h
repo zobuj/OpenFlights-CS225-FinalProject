@@ -18,7 +18,7 @@
 #include <iomanip>
 #include <set>
 #include <sstream>
-
+#include <math.h>
 
 
 
@@ -28,12 +28,12 @@ class Project {
     private:
         vector<int> from;
         vector<int> to;
-        vector<double> latitudes;
-        vector<double> longitudes;
+        map<int, double> latitudes;
+        map<int, double> longitudes;
         vector<int> airports;
         map<int, vector<int>> adjacencyLists;
         map<int, bool> verticesLabel;
-        vector<vector<int>> edgesLabel;
+        map<vector<int>, double> edgesLabel;
         //bool DFSHelper(int from, int to);
         void DFSHelper(int v);
     public:
@@ -44,5 +44,7 @@ class Project {
         void savePNG(string title) const;
         //bool DFS(int from, int to);
         void DFS(int v);
+        double calculateDistance(double latFrom, double longFrom, double latTo, double longTo);
+        void createEdgeWeights();
         // to implement
 };
