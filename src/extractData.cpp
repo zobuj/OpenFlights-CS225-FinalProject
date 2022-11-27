@@ -1,4 +1,4 @@
-#include "extractData.h"
+#include "../includes/extractData.h"
 
 
 void Project::readRoutes(string path) {
@@ -8,7 +8,7 @@ void Project::readRoutes(string path) {
     // ifs.open("/Users/aryanmalhotra/Desktop/cs225project/OpenFlights-CS225-FinalProject/src/firstRoutes.dat");
     ifs.open(path);
     if (ifs.is_open()) {
-        cout << "ifs is open"<<endl;
+        // cout << "ifs is open"<<endl;
         int t = 0;
         while(getline(ifs,line)) {
             //Filter data
@@ -36,8 +36,8 @@ void Project::readRoutes(string path) {
         }
         ifs.close();
     }
-    cout << "Count From: " << from.size() << endl;
-    cout << "Count To: " << to.size() << endl;
+    // cout << "Count From: " << from.size() << endl;
+    // cout << "Count To: " << to.size() << endl;
     // print statement
     // for (int i = 0; i < (int) from.size(); i++) {
     //     cout << "From: " << from[i] << "    To: " << to[i] << endl;
@@ -58,8 +58,8 @@ void Project::readAirports(string path) {
                 if (record.substr(i,1) == "\"") quotes++;
                 if (record.substr(i,1) == "," && quotes % 2 == 0) {
                     if (count == 0) airports.push_back(stoi(temp));
-                    else if (count == 6) latitudes.push_back(stod(temp));
-                    else if (count == 7) longitudes.push_back(stod(temp));
+                    else if (count == 6) latitudes.insert(std::pair<int, double>(airports.back(), stod(temp)));
+                    else if (count == 7) longitudes.insert(std::pair<int, double>(airports.back(), stod(temp)));
                     temp = "";
                     count++;
                 } else if (count == 0 || count == 6 || count == 7) {
@@ -71,8 +71,8 @@ void Project::readAirports(string path) {
     }
     // for (int i = 0; i < (int) airports.size(); i++) {
     //     cout << "Airport: " << airports[i] <<  endl;
-    //     cout << "Latitude: " << latitudes[i] <<  endl;
-    //     cout << "Longitude: " << longitudes[i] <<  endl;
+    //     cout << "Latitude: " << latitudes[airports[i]] <<  endl;
+    //     cout << "Longitude: " << longitudes[airports[i]] <<  endl;
     // }
     // cout << "Size: " << airports.size() << endl;
 }
@@ -81,7 +81,7 @@ void Project::createAdjacencyList() {
     for (int i = 0; i < (int) airports.size(); i++) {
         if (adjacencyLists.find(airports[i]) == adjacencyLists.end()) {
             vector<int> temp;
-            adjacencyLists.insert(pair<int, vector<int>>(airports[i], temp));
+            adjacencyLists.insert(pair<int, vector<int> > (airports[i], temp));
         }
     }
     for (int i = 0; i < (int) from.size(); i++) {
@@ -163,4 +163,25 @@ void Project::savePNG(string title) const
     } else {
         cout << "Failed to generate visual output graph using `neato`. Run `make install_graphviz` first to install dependencies." << endl;
     }
+}
+
+double Project::calculateDistance(double latFrom, double longFrom, double latTo, double longTo) {
+    return sqrt(((latFrom - latTo) * (latFrom - latTo)) + ((longFrom - longTo) * (longFrom - longTo)));
+}
+
+void Project::createEdgeWeights() {
+    for (int i = 0; i < (int) from.size(); i++) {
+        vector<int> temp;
+        temp.push_back(from[i]);
+        temp.push_back(to[i]);
+        if (latitudes.find(from[i]) != latitudes.end() && latitudes.find(to[i]) != latitudes.end()) {
+            if (longitudes.find(from[i]) != longitudes.end() && longitudes.find(to[i]) != longitudes.end()) {
+                double weight = calculateDistance(latitudes[from[i]], longitudes[from[i]], latitudes[to[i]], longitudes[to[i]]);
+                edgesLabel.insert(pair<vector<int>, double>(temp, weight));
+            }
+        }
+    }
+    // for (auto it = edgesLabel.begin(); it != edgesLabel.end(); it++) {
+    //     cout << "From: " << it->first[0] << "   To :" << it->first[1] << "    Weight: " << it->second << endl;
+    // }
 }

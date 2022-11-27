@@ -1,0 +1,2 @@
+void ReadRoutesSimple();
+void ReadAirportsSimple();
