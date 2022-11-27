@@ -31,7 +31,7 @@ class Project {
         map<int, double> latitudes;
         map<int, double> longitudes;
         vector<int> airports;
-        map<int, vector<int>> adjacencyLists;
+        map<int, vector<int> > adjacencyLists;
         map<int, bool> verticesLabel;
         map<vector<int>, double> edgesLabel;
         //bool DFSHelper(int from, int to);
@@ -46,5 +46,10 @@ class Project {
         void DFS(int v);
         double calculateDistance(double latFrom, double longFrom, double latTo, double longTo);
         void createEdgeWeights();
+        vector<int> getFrom() {return from;}
+        vector<int> getTo() {return to;}
+        vector<int> getAirports() {return airports;}
+        map<int, double> getLatitudes() {return latitudes;}
+        map<int, double> getLongitudes() {return longitudes;}
         // to implement
 };

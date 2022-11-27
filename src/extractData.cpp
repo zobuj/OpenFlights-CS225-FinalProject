@@ -1,4 +1,4 @@
-#include "extractData.h"
+#include "../includes/extractData.h"
 
 
 void Project::readRoutes(string path) {
@@ -8,7 +8,7 @@ void Project::readRoutes(string path) {
     // ifs.open("/Users/aryanmalhotra/Desktop/cs225project/OpenFlights-CS225-FinalProject/src/firstRoutes.dat");
     ifs.open(path);
     if (ifs.is_open()) {
-        cout << "ifs is open"<<endl;
+        // cout << "ifs is open"<<endl;
         int t = 0;
         while(getline(ifs,line)) {
             //Filter data
@@ -36,8 +36,8 @@ void Project::readRoutes(string path) {
         }
         ifs.close();
     }
-    cout << "Count From: " << from.size() << endl;
-    cout << "Count To: " << to.size() << endl;
+    // cout << "Count From: " << from.size() << endl;
+    // cout << "Count To: " << to.size() << endl;
     // print statement
     // for (int i = 0; i < (int) from.size(); i++) {
     //     cout << "From: " << from[i] << "    To: " << to[i] << endl;
@@ -71,8 +71,8 @@ void Project::readAirports(string path) {
     }
     // for (int i = 0; i < (int) airports.size(); i++) {
     //     cout << "Airport: " << airports[i] <<  endl;
-    //     cout << "Latitude: " << latitudes[i] <<  endl;
-    //     cout << "Longitude: " << longitudes[i] <<  endl;
+    //     cout << "Latitude: " << latitudes[airports[i]] <<  endl;
+    //     cout << "Longitude: " << longitudes[airports[i]] <<  endl;
     // }
     // cout << "Size: " << airports.size() << endl;
 }
@@ -81,7 +81,7 @@ void Project::createAdjacencyList() {
     for (int i = 0; i < (int) airports.size(); i++) {
         if (adjacencyLists.find(airports[i]) == adjacencyLists.end()) {
             vector<int> temp;
-            adjacencyLists.insert(pair<int, vector<int>>(airports[i], temp));
+            adjacencyLists.insert(pair<int, vector<int> > (airports[i], temp));
         }
     }
     for (int i = 0; i < (int) from.size(); i++) {
@@ -171,7 +171,9 @@ double Project::calculateDistance(double latFrom, double longFrom, double latTo,
 
 void Project::createEdgeWeights() {
     for (int i = 0; i < (int) from.size(); i++) {
-        vector<int> temp = {from[i], to[i]};
+        vector<int> temp;
+        temp.push_back(from[i]);
+        temp.push_back(to[i]);
         if (latitudes.find(from[i]) != latitudes.end() && latitudes.find(to[i]) != latitudes.end()) {
             if (longitudes.find(from[i]) != longitudes.end() && longitudes.find(to[i]) != longitudes.end()) {
                 double weight = calculateDistance(latitudes[from[i]], longitudes[from[i]], latitudes[to[i]], longitudes[to[i]]);
@@ -179,7 +181,7 @@ void Project::createEdgeWeights() {
             }
         }
     }
-    for (auto it = edgesLabel.begin(); it != edgesLabel.end(); it++) {
-        cout << "From: " << it->first[0] << "   To :" << it->first[1] << "    Weight: " << it->second << endl;
-    }
+    // for (auto it = edgesLabel.begin(); it != edgesLabel.end(); it++) {
+    //     cout << "From: " << it->first[0] << "   To :" << it->first[1] << "    Weight: " << it->second << endl;
+    // }
 }
