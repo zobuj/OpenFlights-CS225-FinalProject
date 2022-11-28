@@ -20,6 +20,6 @@ int main() {
     init.savePNG("test");
     // should get output that matches DISCORD SCREENSHOT
     //Testing simple DFS given a source code
-    init.DFS(9);
+    init.DFS(2);
     return 0;
 }
