@@ -3,25 +3,18 @@
 #include <fstream>
 #include <iostream>
 using namespace std;
+// change this to your own paths
+string getRoutesPath() {return "/workspaces/cs225/revised/release-f22/OpenFlights-CS225-FinalProject/data/sample/sampleroutes.dat";}
+string getAirportsPath() {return  "/workspaces/cs225/revised/release-f22/OpenFlights-CS225-FinalProject/data/sample/sampleairports.dat";}
 int main() {
-    Project init;
-    // cout << "made project: " << endl;
-    string routes_path = "/Users/alexisserrano/Documents/CS225_FinalProject/OpenFlights-CS225-FinalProject/data/sample/sampleroutes.dat";
-    string airports_path = "/Users/alexisserrano/Documents/CS225_FinalProject/OpenFlights-CS225-FinalProject/data/sample/sampleairports.dat";
+    Project init(getRoutesPath(),getAirportsPath());
     
-    init.readRoutes(routes_path);
-    
-    // cout << "Read routes finished: " << endl;
-    init.readAirports(airports_path);
-    // cout << "read airports: " << endl;
-    init.createAdjacencyList();
-
     init.printMap();
+    
     init.savePNG("test");
-    // should get output that matches DISCORD SCREENSHOT
-    //Testing simple DFS given a source code
-   std::cout << "Connection exists between 9 and 4: " + to_string(init.DFS(9, 4)) << std::endl;
-    //init.DFS(9, 3);
+    
+    init.DFS(9, 7);
     init.createEdgeWeights();
+
     return 0;
 }

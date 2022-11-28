@@ -1,6 +1,10 @@
 #include "../includes/extractData.h"
 
-
+Project::Project(string routes_path, string airports_path){
+    readAirports(airports_path);
+    readRoutes(routes_path);
+    createAdjacencyList();
+}
 void Project::readRoutes(string path) {
     string line;
     ifstream ifs;
@@ -35,13 +39,9 @@ void Project::readRoutes(string path) {
             // cout << "Err: " << t <<endl;
         }
         ifs.close();
+    } else {
+        cout << "problem opening path" << endl;
     }
-    // cout << "Count From: " << from.size() << endl;
-    // cout << "Count To: " << to.size() << endl;
-    // print statement
-    // for (int i = 0; i < (int) from.size(); i++) {
-    //     cout << "From: " << from[i] << "    To: " << to[i] << endl;
-    // }
 }
 
 void Project::readAirports(string path) {
@@ -125,6 +125,7 @@ bool Project::DFSHelper(int v, int w) {
 // }
 void Project::printMap() {
     int cap = 0;
+    
     for (auto x = adjacencyLists.begin(); x != adjacencyLists.end() && cap < 100; ++x) {
         // x shoudl be a pair of int and vector
         cout << x->first << " Neighhbors: ";
@@ -134,6 +135,7 @@ void Project::printMap() {
         cout << endl;
         cap++;
     }
+    if (cap >= 100) cout << "limiting output, capped at 100 nodes" << endl;
 }
 
 void Project::savePNG(string title) const
