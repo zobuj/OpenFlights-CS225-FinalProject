@@ -6,7 +6,7 @@
 using namespace std;
 
 void ReadRoutesSimple() {
-    string path = "/Users/aryanmalhotra/Desktop/cs225project/OpenFlights-CS225-FinalProject/data/sample/sampleroutes.dat";
+    string path = "/Users/alexisserrano/Documents/CS225_FinalProject/OpenFlights-CS225-FinalProject/data/sample/sampleroutes.dat";
     Project init;
     init.readRoutes(path);
     vector<int> from_expected = {9,9,9,9,1,2,4,3};
@@ -23,7 +23,7 @@ void ReadRoutesSimple() {
     cout << "Read Routes Simple: ALL ASSERTIONS PASSED" << endl;
 }
 void ReadAirportsSimple() {
-    string path = "/Users/aryanmalhotra/Desktop/cs225project/OpenFlights-CS225-FinalProject/data/sample/sampleairports.dat";
+    string path = "/Users/alexisserrano/Documents/CS225_FinalProject/OpenFlights-CS225-FinalProject/data/sample/sampleairports.dat";
     Project init;
     init.readAirports(path);
     vector<int> airports_expected = {1,2,3,4,5,6,7,8,9};
@@ -51,7 +51,42 @@ void ReadAirportsSimple() {
     cout << "Read Airports Simple: ALL ASSERTIONS PASSED" << endl;
 }
 
+void PathExist() {
+    Project init;
+    string routes_path = "/Users/alexisserrano/Documents/CS225_FinalProject/OpenFlights-CS225-FinalProject/data/sample/sampleroutes.dat";
+    string airports_path = "/Users/alexisserrano/Documents/CS225_FinalProject/OpenFlights-CS225-FinalProject/data/sample/sampleairports.dat";
+    
+    init.readRoutes(routes_path);
+    init.readAirports(airports_path);
+    init.createAdjacencyList();
+
+    //undirectional paths (both directions)
+    assert(init.DFS(9, 4) == 1);
+    assert(init.DFS(4, 9) == 1);
+
+    //one step path
+    assert(init.DFS(3, 8) == 1);
+    assert(init.DFS(2, 6) == 1);
+    assert(init.DFS(9, 1) == 1);
+
+    //Mulitple step paths
+    assert(init.DFS(4, 8) == 1);
+    assert(init.DFS(9, 6) == 1);
+    assert(init.DFS(4, 5) == 1);
+
+    //no connections (no paths)
+    assert(init.DFS(7, 9) == 0);
+
+    //strict directional paths (one direction)
+    assert(init.DFS(8, 3) == 0);
+    assert(init.DFS(5, 4) == 0);
+
+    cout << "Path Exists: ALL ASSERTIONS PASSED" << endl;
+}
+
+
 int main() {
     ReadRoutesSimple();
     ReadAirportsSimple();
+    PathExist();
 }
