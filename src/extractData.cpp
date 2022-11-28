@@ -94,22 +94,29 @@ void Project::createAdjacencyList() {
     // }
 }
 //DFS for the graph components
-void Project::DFS(int v) {
+//checks if two nodes have a connection before finding the shortest path
+bool Project::DFS(int v, int w) {
     int cap = 0;
     for (auto x = adjacencyLists.begin(); x != adjacencyLists.end() && cap < 100; ++x)  {
         verticesLabel[x->first] = false; 
         cap++;
     }
-    DFSHelper(v);
+    return DFSHelper(v, w);
 }
-void Project::DFSHelper(int v) {
+bool Project::DFSHelper(int v, int w) {
+    if (w == v) {
+        return true;
+    }
     verticesLabel[v] = true;
-    std::cout << to_string(v) << " ";
+    //std::cout << to_string(v) << " ";
     for (auto x = adjacencyLists[v].begin(); x != adjacencyLists[v].end(); ++x)  {
         if (!verticesLabel[*x]) {
-            DFSHelper(*x);
+            if (DFSHelper(*x, w)) {
+                return true;
+            }
         }
     }
+    return false;
 }
 
 // bool DFS(int from, int to) {

@@ -6,8 +6,8 @@ using namespace std;
 int main() {
     Project init;
     // cout << "made project: " << endl;
-    string routes_path = "/Users/aryanmalhotra/Desktop/cs225project/OpenFlights-CS225-FinalProject/data/raw/routes.dat";
-    string airports_path = "/Users/aryanmalhotra/Desktop/cs225project/OpenFlights-CS225-FinalProject/data/raw/airports.dat";
+    string routes_path = "/Users/alexisserrano/Documents/CS225_FinalProject/OpenFlights-CS225-FinalProject/data/sample/sampleroutes.dat";
+    string airports_path = "/Users/alexisserrano/Documents/CS225_FinalProject/OpenFlights-CS225-FinalProject/data/sample/sampleairports.dat";
     
     init.readRoutes(routes_path);
     
@@ -20,7 +20,8 @@ int main() {
     init.savePNG("test");
     // should get output that matches DISCORD SCREENSHOT
     //Testing simple DFS given a source code
-    init.DFS(9);
+   std::cout << "Connection exists between 9 and 4: " + to_string(init.DFS(9, 4)) << std::endl;
+    //init.DFS(9, 3);
     init.createEdgeWeights();
     return 0;
 }

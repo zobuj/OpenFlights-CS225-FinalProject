@@ -35,7 +35,7 @@ class Project {
         map<int, bool> verticesLabel;
         map<vector<int>, double> edgesLabel;
         //bool DFSHelper(int from, int to);
-        void DFSHelper(int v);
+        bool DFSHelper(int v, int w);
     public:
         void readRoutes(string path);
         void readAirports(string path);
@@ -43,7 +43,7 @@ class Project {
         void printMap();
         void savePNG(string title) const;
         //bool DFS(int from, int to);
-        void DFS(int v);
+        bool DFS(int v, int w);
         double calculateDistance(double latFrom, double longFrom, double latTo, double longTo);
         void createEdgeWeights();
         vector<int> getFrom() {return from;}
