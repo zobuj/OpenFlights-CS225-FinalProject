@@ -1,17 +1,12 @@
 #include "../includes/tests.h"
-#include "../includes/extractData.h"
-#include <string>
-#include <vector>
-#include <map>
 using namespace std;
 
 void ReadRoutesSimple() {
-    string path = "/Users/aryanmalhotra/Desktop/cs225project/OpenFlights-CS225-FinalProject/data/sample/sampleroutes.dat";
-    Project init;
-    init.readRoutes(path);
+    
+    Project init(getRoutesPath(),getAirportsPath());
     vector<int> from_expected = {9,9,9,9,1,2,4,3};
     vector<int> from_actual = init.getFrom();
-    vector<int> to_expected = {1,2,3,4,5,6,9,8};
+    vector<int> to_expected =   {1,2,3,4,5,6,8,7};
     vector<int> to_actual = init.getTo();
     assert(from_expected.size() == from_actual.size());
     assert(to_expected.size() == to_actual.size());
@@ -23,9 +18,8 @@ void ReadRoutesSimple() {
     cout << "Read Routes Simple: ALL ASSERTIONS PASSED" << endl;
 }
 void ReadAirportsSimple() {
-    string path = "/Users/aryanmalhotra/Desktop/cs225project/OpenFlights-CS225-FinalProject/data/sample/sampleairports.dat";
-    Project init;
-    init.readAirports(path);
+    
+    Project init(getRoutesPath(),getAirportsPath());
     vector<int> airports_expected = {1,2,3,4,5,6,7,8,9};
     vector<int> airports_actual = init.getAirports();
     assert(airports_expected.size() == airports_actual.size());
@@ -54,4 +48,38 @@ void ReadAirportsSimple() {
 int main() {
     ReadRoutesSimple();
     ReadAirportsSimple();
+    TestsAdjacencyLists();
+}
+void TestsAdjacencyLists() {
+    
+    Project init(getRoutesPath(),getAirportsPath());
+    
+    map<int, vector<int>> map_actual = init.getMap();
+    vector<int> adj_keys_expected = {1,2,3,4,5,6,7,8,9};
+    vector<vector<int>> adj_l_expected
+    {
+        {5},
+        {6},
+        {7},
+        {8},
+        {},
+        {},
+        {},
+        {},
+        {1,2,3,4}
+    };
+    unsigned key_idx = 0;
+    for (auto x = map_actual.begin(); x != map_actual.end(); ++x) {
+        assert(x->first == adj_keys_expected[key_idx]);
+        unsigned value_idx = 0;
+        // check if the neighbors are the same
+        for (int neighbor:x->second) {
+            // cout <<adj_l_expected[key_idx][value_idx] << " " << neighbor << endl; 
+            assert(adj_l_expected[key_idx][value_idx] == neighbor);
+            value_idx++;
+        }
+        key_idx++;
+
+    }
+    cout << "Testing Map: ALL ASSERTIONS PASSED"<<endl;
 }
