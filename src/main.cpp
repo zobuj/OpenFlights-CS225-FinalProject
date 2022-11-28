@@ -1,30 +1,33 @@
-#include "extractData.h"
+#include "../includes/extractData.h"
 
 #include <fstream>
 #include <iostream>
 using namespace std;
+// change this to your own paths
+//string getRoutesPath() {return "/workspaces/cs225/release-f22/release-f22/Final Project/OpenFlights-CS225-FinalProject/data/raw/routes.dat";}
+string getRoutesPath() {return "/workspaces/cs225/release-f22/release-f22/Final Project/OpenFlights-CS225-FinalProject/data/sample/sampleroutes.dat";}
+
+
+//string getAirportsPath() {return  "/workspaces/cs225/release-f22/release-f22/Final Project/OpenFlights-CS225-FinalProject/data/raw/airports.dat";}
+string getAirportsPath() {return  "/workspaces/cs225/release-f22/release-f22/Final Project/OpenFlights-CS225-FinalProject/data/sample/sampleairports.dat";}
+
 int main() {
-    Project init;
-    // cout << "made project: " << endl;
-   string routes_path = "/workspaces/cs225/release-f22/release-f22/Final Project/OpenFlights-CS225-FinalProject/data/raw/routes.dat";
-   string airports_path = "/workspaces/cs225/release-f22/release-f22/Final Project/OpenFlights-CS225-FinalProject/data/raw/airports.dat";
-   // string routes_path = "/workspaces/cs225/release-f22/release-f22/Final Project/OpenFlights-CS225-FinalProject/data/sample/sampleroutes.dat";
-    //string airports_path = "/workspaces/cs225/release-f22/release-f22/Final Project/OpenFlights-CS225-FinalProject/data/sample/sampleairports.dat";
 
-    //Amir Path
-    /*string routes_path = "/workspaces/cs225/revised/release-f22/CS225-final/OpenFlights-CS225-FinalProject/data/sample/sampleroutes.dat";
-    string airports_path = "/workspaces/cs225/revised/release-f22/CS225-final/OpenFlights-CS225-FinalProject/data/sample/sampleairpots.dat";*/
     
-    init.readRoutes(routes_path);
-    
-    // cout << "Read routes finished: " << endl;
-    init.readAirports(airports_path);
-    // cout << "read airports: " << endl;
-    init.createAdjacencyList();
 
+
+
+    Project init(getRoutesPath(),getAirportsPath());
+
+    
     init.printMap();
+    
     init.savePNG("test");
-    init.printTo();
     // should get output that matches DISCORD SCREENSHOT
+
+    
+    //init.printConnected(9,"DFS");
+    init.createEdgeWeights();
+
     return 0;
 }

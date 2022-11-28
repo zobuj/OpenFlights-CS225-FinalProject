@@ -1,6 +1,10 @@
-#include "extractData.h"
+#include "../includes/extractData.h"
 
-
+Project::Project(string routes_path, string airports_path){
+    readAirports(airports_path);
+    readRoutes(routes_path);
+    createAdjacencyList();
+}
 void Project::readRoutes(string path) {
     string line;
     ifstream ifs;
@@ -8,7 +12,7 @@ void Project::readRoutes(string path) {
     // ifs.open("/Users/aryanmalhotra/Desktop/cs225project/OpenFlights-CS225-FinalProject/src/firstRoutes.dat");
     ifs.open(path);
     if (ifs.is_open()) {
-        cout << "ifs is open"<<endl;
+        // cout << "ifs is open"<<endl;
         int t = 0;
         while(getline(ifs,line)) {
             //Filter data
@@ -35,13 +39,9 @@ void Project::readRoutes(string path) {
             // cout << "Err: " << t <<endl;
         }
         ifs.close();
+    } else {
+        cout << "problem opening path" << endl;
     }
-    cout << "Count From: " << from.size() << endl;
-    cout << "Count To: " << to.size() << endl;
-    // print statement
-    // for (int i = 0; i < (int) from.size(); i++) {
-    //     cout << "From: " << from[i] << "    To: " << to[i] << endl;
-    // }
 }
 
 void Project::readAirports(string path) {
@@ -58,8 +58,8 @@ void Project::readAirports(string path) {
                 if (record.substr(i,1) == "\"") quotes++;
                 if (record.substr(i,1) == "," && quotes % 2 == 0) {
                     if (count == 0) airports.push_back(stoi(temp));
-                    else if (count == 6) latitudes.push_back(stod(temp));
-                    else if (count == 7) longitudes.push_back(stod(temp));
+                    else if (count == 6) latitudes.insert(std::pair<int, double>(airports.back(), stod(temp)));
+                    else if (count == 7) longitudes.insert(std::pair<int, double>(airports.back(), stod(temp)));
                     temp = "";
                     count++;
                 } else if (count == 0 || count == 6 || count == 7) {
@@ -71,8 +71,8 @@ void Project::readAirports(string path) {
     }
     // for (int i = 0; i < (int) airports.size(); i++) {
     //     cout << "Airport: " << airports[i] <<  endl;
-    //     cout << "Latitude: " << latitudes[i] <<  endl;
-    //     cout << "Longitude: " << longitudes[i] <<  endl;
+    //     cout << "Latitude: " << latitudes[airports[i]] <<  endl;
+    //     cout << "Longitude: " << longitudes[airports[i]] <<  endl;
     // }
     // cout << "Size: " << airports.size() << endl;
 }
@@ -81,7 +81,7 @@ void Project::createAdjacencyList() {
     for (int i = 0; i < (int) airports.size(); i++) {
         if (adjacencyLists.find(airports[i]) == adjacencyLists.end()) {
             vector<int> temp;
-            adjacencyLists.insert(pair<int, vector<int>>(airports[i], temp));
+            adjacencyLists.insert(pair<int, vector<int> > (airports[i], temp));
         }
     }
     for (int i = 0; i < (int) from.size(); i++) {
@@ -93,6 +93,52 @@ void Project::createAdjacencyList() {
     //     cout << adjacencyLists[1][i] << "   ";
     // }
 }
+//DFS for the graph components
+void Project::printConnected(int v,string title) {
+    std::ofstream neatoFile;
+    string neatoFileStr="";
+    string filename = title + ".dot";
+    neatoFile.open(filename.c_str());
+    neatoFile<<"digraph {\n";
+    neatoFile<<"overlap=false;\n"
+                <<"fontsize=6;\n"
+                <<"normalize=true;\n"
+                <<"ranksep=3;\n"
+                <<"height=0.1;\n"
+                <<to_string(v)+"[color=\"red\"]\n";
+    for (auto x = adjacencyLists.begin(); x != adjacencyLists.end(); ++x)  {
+        verticesLabel[x->first] = false; 
+    
+    }
+    printConnectedHelper(v, neatoFileStr);
+    //neatoFileStr.erase(neatoFileStr.size()-2,2);
+    neatoFile<<neatoFileStr;
+    neatoFile<<"}";
+
+    neatoFile.close();
+    string command = "twopi -Tpng "+ title +".dot -o DFS.png";
+    int result = system(command.c_str());
+
+
+    if (result == 0) {
+        cout << "Output graph saved as " << title << ".png" << endl;
+    } else {
+        cout << "Failed to generate visual output graph using `neato`. Run `make install_graphviz` first to install dependencies." << endl;
+    }
+}
+void Project::printConnectedHelper(int v, string & neatoFile) {
+    verticesLabel[v] = true;
+    //std::cout << v<<" ";
+    
+    for (auto x = adjacencyLists[v].begin(); x != adjacencyLists[v].end(); ++x)  {
+        neatoFile+=to_string(v) +"->";
+        if (!verticesLabel[*x]) {
+            neatoFile += to_string(*x) + "[arrowhead=halfopen]\n";
+            printConnectedHelper(*x, neatoFile);
+        }
+    }
+
+}
 
 // bool DFS(int from, int to) {
 //     // for dfs I'll need a stack,
@@ -100,6 +146,7 @@ void Project::createAdjacencyList() {
 // }
 void Project::printMap() {
     int cap = 0;
+    
     for (auto x = adjacencyLists.begin(); x != adjacencyLists.end() && cap < 100; ++x) {
         // x shoudl be a pair of int and vector
         cout << x->first << " Neighhbors: ";
@@ -109,6 +156,7 @@ void Project::printMap() {
         cout << endl;
         cap++;
     }
+    if (cap >= 100) cout << "limiting output, capped at 100 nodes" << endl;
 }
 
 void Project::savePNG(string title) const
@@ -117,21 +165,24 @@ void Project::savePNG(string title) const
     string filename = title + ".dot";
     neatoFile.open(filename.c_str());
     neatoFile<<"digraph {\n";
-    neatoFile<<"layout=twopi\n"
-                <<"normalize=true\n"
+    neatoFile<<"layout=circo;\n"
+                //<<"overlap=twopi;\n"
+                <<"fontsize=6;\n"
+                <<"normalize=true;\n"
                 <<"ranksep=3;\n"
-                <<"ratio=auto;\n";
+                <<"ranksep=3;\n"
+                <<"ratio=auto;\n"
+                <<"height=0.1;\n";
     //neatoFile<<"node [shape = circle];\n";
-    int cap = 0;
     int localcount=0;
     int maxcount=0;
     int maxNode=0;
-    for (auto x = adjacencyLists.begin(); x != adjacencyLists.end() && cap < 100; ++x) {
+    for (auto x = adjacencyLists.begin(); x != adjacencyLists.end(); ++x) {
         // x shoudl be a pair of int and vector
         localcount=0;
-        for (unsigned i = 0; i < x->second.size() && i < 100;++i) {
+        for (unsigned i = 0; i < x->second.size();++i) {
             neatoFile << (x->first)<<"->";
-            neatoFile << x->second[i] << "\n";
+            neatoFile << x->second[i] << "[arrowhead=halfopen]\n";
             localcount++;
         }
         if(localcount>maxcount){
@@ -141,16 +192,15 @@ void Project::savePNG(string title) const
         /*if(x->second.size()==0){
             neatoFile<<(x->first)<<"\n";
         }*/
-        cap++;
     }
     cout<<maxNode<<endl;
-    neatoFile<<"root=49;";
+    //neatoFile<<"root="<<maxNode;
     neatoFile<<"}";
 
 
 
     neatoFile.close();
-    string command = "circo -Tpng "+ title +".dot -o test.png";
+    string command = "twopi -Tpng "+ title +".dot -o test.png";
     int result = system(command.c_str());
 
 
@@ -161,9 +211,31 @@ void Project::savePNG(string title) const
     }
 }
 
+/*
 void Project::printTo(){
     
     for(size_t i=0;i<to.size();i++){
         std::cout<<from[i]<<" -> "<<to[i]<<std::endl;
     }
+}*/
+double Project::calculateDistance(double latFrom, double longFrom, double latTo, double longTo) {
+    return sqrt(((latFrom - latTo) * (latFrom - latTo)) + ((longFrom - longTo) * (longFrom - longTo)));
+}
+
+void Project::createEdgeWeights() {
+    for (int i = 0; i < (int) from.size(); i++) {
+        vector<int> temp;
+        temp.push_back(from[i]);
+        temp.push_back(to[i]);
+        if (latitudes.find(from[i]) != latitudes.end() && latitudes.find(to[i]) != latitudes.end()) {
+            if (longitudes.find(from[i]) != longitudes.end() && longitudes.find(to[i]) != longitudes.end()) {
+                double weight = calculateDistance(latitudes[from[i]], longitudes[from[i]], latitudes[to[i]], longitudes[to[i]]);
+                edgesLabel.insert(pair<vector<int>, double>(temp, weight));
+            }
+        }
+    }
+    // for (auto it = edgesLabel.begin(); it != edgesLabel.end(); it++) {
+    //     cout << "From: " << it->first[0] << "   To :" << it->first[1] << "    Weight: " << it->second << endl;
+    // }
+
 }
