@@ -1,0 +1,14 @@
+digraph {
+layout=twopi
+normalize=true
+ranksep=3;
+ratio=auto;
+1->5
+2->6
+3->8
+4->9
+9->1
+9->2
+9->3
+9->4
+}
