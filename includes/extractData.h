@@ -42,14 +42,14 @@ class Project {
         void createAdjacencyList();
         void printMap();
         void savePNG(string title) const;
-        //bool DFS(int from, int to);
         void DFS(int v);
         double calculateDistance(double latFrom, double longFrom, double latTo, double longTo);
         void createEdgeWeights();
-        vector<int> getFrom() {return from;}
-        vector<int> getTo() {return to;}
-        vector<int> getAirports() {return airports;}
-        map<int, double> getLatitudes() {return latitudes;}
-        map<int, double> getLongitudes() {return longitudes;}
-        // to implement
+        vector<int> getFrom() const {return from;}
+        vector<int> getTo() const {return to;}
+        vector<int> getAirports() const {return airports;}
+        map<int, double> getLatitudes() const {return latitudes;}
+        map<int, double> getLongitudes() const {return longitudes;}
+        map<int, vector<int>> getMap() const {return adjacencyLists;}
+        Project(string routes_path, string airports_path);
 };
