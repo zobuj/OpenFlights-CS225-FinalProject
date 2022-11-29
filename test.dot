@@ -3,7 +3,6 @@ layout=circo;
 fontsize=6;
 normalize=true;
 ranksep=3;
-ranksep=3;
 ratio=auto;
 height=0.1;
 1->5[arrowhead=halfopen]

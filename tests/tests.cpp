@@ -49,6 +49,7 @@ int main() {
     ReadRoutesSimple();
     ReadAirportsSimple();
     TestsAdjacencyLists();
+    testSimpleGraphOutput();
 }
 void TestsAdjacencyLists() {
     
@@ -82,4 +83,13 @@ void TestsAdjacencyLists() {
 
     }
     cout << "Testing Map: ALL ASSERTIONS PASSED"<<endl;
+}
+
+void testSimpleGraphOutput() {
+    Project init(getRoutesPath(),getAirportsPath());
+    init.savePNG("suite");
+    int val =system("diff suite.dot sample.dot");
+    assert(val==0);
+    cout<<"Testing Graph-Passed All Simple Graph Assertions" <<endl;
+
 }

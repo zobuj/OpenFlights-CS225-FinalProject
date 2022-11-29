@@ -170,7 +170,6 @@ void Project::savePNG(string title) const
                 <<"fontsize=6;\n"
                 <<"normalize=true;\n"
                 <<"ranksep=3;\n"
-                <<"ranksep=3;\n"
                 <<"ratio=auto;\n"
                 <<"height=0.1;\n";
     //neatoFile<<"node [shape = circle];\n";
