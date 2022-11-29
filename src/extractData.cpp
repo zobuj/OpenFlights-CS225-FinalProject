@@ -94,6 +94,28 @@ void Project::createAdjacencyList() {
     // }
 }
 //DFS for the graph components
+bool Project::DFS(int v, int w) {
+    for (auto x = adjacencyLists.begin(); x != adjacencyLists.end(); ++x)  {
+        verticesLabel[x->first] = false; 
+
+    }
+    return DFSHelper(v, w);
+}
+bool Project::DFSHelper(int v, int w) {
+    if (w == v) {
+        return true;
+    }
+    verticesLabel[v] = true;
+    for (auto x = adjacencyLists[v].begin(); x != adjacencyLists[v].end(); ++x)  {
+        if (!verticesLabel[*x]) {
+            if (DFSHelper(*x, w)) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 void Project::printConnected(int v,string title) {
     std::ofstream neatoFile;
     string neatoFileStr="";
@@ -129,7 +151,7 @@ void Project::printConnected(int v,string title) {
 void Project::printConnectedHelper(int v, string & neatoFile) {
     verticesLabel[v] = true;
     //std::cout << v<<" ";
-    
+
     for (auto x = adjacencyLists[v].begin(); x != adjacencyLists[v].end(); ++x)  {
         neatoFile+=to_string(v) +"->";
         if (!verticesLabel[*x]) {
@@ -137,13 +159,8 @@ void Project::printConnectedHelper(int v, string & neatoFile) {
             printConnectedHelper(*x, neatoFile);
         }
     }
-
 }
 
-// bool DFS(int from, int to) {
-//     // for dfs I'll need a stack,
-//     DFSHelper(from, to);
-// }
 void Project::printMap() {
     int cap = 0;
     
