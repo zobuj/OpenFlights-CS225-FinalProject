@@ -96,10 +96,8 @@ void Project::createAdjacencyList() {
 //DFS for the graph components
 //checks if two nodes have a connection before finding the shortest path
 bool Project::DFS(int v, int w) {
-    int cap = 0;
-    for (auto x = adjacencyLists.begin(); x != adjacencyLists.end() && cap < 100; ++x)  {
+    for (auto x = adjacencyLists.begin(); x != adjacencyLists.end(); ++x)  {
         verticesLabel[x->first] = false; 
-        cap++;
     }
     return DFSHelper(v, w);
 }
