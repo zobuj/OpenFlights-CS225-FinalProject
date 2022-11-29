@@ -46,19 +46,16 @@ void ReadAirportsSimple() {
 void PathExist() {
     Project init(getRoutesPath(),getAirportsPath());
 
-    //undirectional paths (both directions)
     assert(init.DFS(9, 4) == 1);
-    assert(init.DFS(4, 9) == 1);
+    assert(init.DFS(4, 9) == 0);
 
     //one step path
-    assert(init.DFS(3, 8) == 1);
     assert(init.DFS(2, 6) == 1);
     assert(init.DFS(9, 1) == 1);
 
     //Mulitple step paths
     assert(init.DFS(4, 8) == 1);
     assert(init.DFS(9, 6) == 1);
-    assert(init.DFS(4, 5) == 1);
 
     //no connections (no paths)
     assert(init.DFS(7, 9) == 0);

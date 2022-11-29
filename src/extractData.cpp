@@ -94,10 +94,10 @@ void Project::createAdjacencyList() {
     // }
 }
 //DFS for the graph components
-//checks if two nodes have a connection before finding the shortest path
 bool Project::DFS(int v, int w) {
     for (auto x = adjacencyLists.begin(); x != adjacencyLists.end(); ++x)  {
         verticesLabel[x->first] = false; 
+
     }
     return DFSHelper(v, w);
 }
@@ -106,7 +106,6 @@ bool Project::DFSHelper(int v, int w) {
         return true;
     }
     verticesLabel[v] = true;
-    //std::cout << to_string(v) << " ";
     for (auto x = adjacencyLists[v].begin(); x != adjacencyLists[v].end(); ++x)  {
         if (!verticesLabel[*x]) {
             if (DFSHelper(*x, w)) {
@@ -117,10 +116,51 @@ bool Project::DFSHelper(int v, int w) {
     return false;
 }
 
-// bool DFS(int from, int to) {
-//     // for dfs I'll need a stack,
-//     DFSHelper(from, to);
-// }
+void Project::printConnected(int v,string title) {
+    std::ofstream neatoFile;
+    string neatoFileStr="";
+    string filename = title + ".dot";
+    neatoFile.open(filename.c_str());
+    neatoFile<<"digraph {\n";
+    neatoFile<<"overlap=false;\n"
+                <<"fontsize=6;\n"
+                <<"normalize=true;\n"
+                <<"ranksep=3;\n"
+                <<"height=0.1;\n"
+                <<to_string(v)+"[color=\"red\"]\n";
+    for (auto x = adjacencyLists.begin(); x != adjacencyLists.end(); ++x)  {
+        verticesLabel[x->first] = false; 
+    
+    }
+    printConnectedHelper(v, neatoFileStr);
+    //neatoFileStr.erase(neatoFileStr.size()-2,2);
+    neatoFile<<neatoFileStr;
+    neatoFile<<"}";
+
+    neatoFile.close();
+    string command = "twopi -Tpng "+ title +".dot -o DFS.png";
+    int result = system(command.c_str());
+
+
+    if (result == 0) {
+        cout << "Output graph saved as " << title << ".png" << endl;
+    } else {
+        cout << "Failed to generate visual output graph using `neato`. Run `make install_graphviz` first to install dependencies." << endl;
+    }
+}
+void Project::printConnectedHelper(int v, string & neatoFile) {
+    verticesLabel[v] = true;
+    //std::cout << v<<" ";
+
+    for (auto x = adjacencyLists[v].begin(); x != adjacencyLists[v].end(); ++x)  {
+        neatoFile+=to_string(v) +"->";
+        if (!verticesLabel[*x]) {
+            neatoFile += to_string(*x) + "[arrowhead=halfopen]\n";
+            printConnectedHelper(*x, neatoFile);
+        }
+    }
+}
+
 void Project::printMap() {
     int cap = 0;
     
@@ -142,25 +182,42 @@ void Project::savePNG(string title) const
     string filename = title + ".dot";
     neatoFile.open(filename.c_str());
     neatoFile<<"digraph {\n";
-    int cap = 0;
-    for (auto x = adjacencyLists.begin(); x != adjacencyLists.end() && cap < 100; ++x) {
+    neatoFile<<"layout=circo;\n"
+                //<<"overlap=twopi;\n"
+                <<"fontsize=6;\n"
+                <<"normalize=true;\n"
+                <<"ranksep=3;\n"
+                <<"ranksep=3;\n"
+                <<"ratio=auto;\n"
+                <<"height=0.1;\n";
+    //neatoFile<<"node [shape = circle];\n";
+    int localcount=0;
+    int maxcount=0;
+    int maxNode=0;
+    for (auto x = adjacencyLists.begin(); x != adjacencyLists.end(); ++x) {
         // x shoudl be a pair of int and vector
-        
-        for (unsigned i = 0; i < x->second.size() && i < 100;++i) {
+        localcount=0;
+        for (unsigned i = 0; i < x->second.size();++i) {
             neatoFile << (x->first)<<"->";
-            neatoFile << x->second[i] << "\n";
+            neatoFile << x->second[i] << "[arrowhead=halfopen]\n";
+            localcount++;
         }
-        if(x->second.size()==0){
+        if(localcount>maxcount){
+            maxcount=localcount;
+            maxNode=x->first;
+        }
+        /*if(x->second.size()==0){
             neatoFile<<(x->first)<<"\n";
-        }
-        cap++;
+        }*/
     }
+    cout<<maxNode<<endl;
+    //neatoFile<<"root="<<maxNode;
     neatoFile<<"}";
 
 
 
     neatoFile.close();
-    string command = "dot "+ title +".dot -Tpng -o test.png";
+    string command = "twopi -Tpng "+ title +".dot -o test.png";
     int result = system(command.c_str());
 
 
@@ -171,6 +228,13 @@ void Project::savePNG(string title) const
     }
 }
 
+/*
+void Project::printTo(){
+    
+    for(size_t i=0;i<to.size();i++){
+        std::cout<<from[i]<<" -> "<<to[i]<<std::endl;
+    }
+}*/
 double Project::calculateDistance(double latFrom, double longFrom, double latTo, double longTo) {
     return sqrt(((latFrom - latTo) * (latFrom - latTo)) + ((longFrom - longTo) * (longFrom - longTo)));
 }
@@ -190,4 +254,5 @@ void Project::createEdgeWeights() {
     // for (auto it = edgesLabel.begin(); it != edgesLabel.end(); it++) {
     //     cout << "From: " << it->first[0] << "   To :" << it->first[1] << "    Weight: " << it->second << endl;
     // }
+
 }

@@ -36,6 +36,7 @@ class Project {
         map<vector<int>, double> edgesLabel;
         //bool DFSHelper(int from, int to);
         bool DFSHelper(int v, int w);
+        void printConnectedHelper(int v, string & neatoFile);
     public:
         void readRoutes(string path);
         void readAirports(string path);
@@ -44,6 +45,7 @@ class Project {
         void savePNG(string title) const;
         //bool DFS(int from, int to);
         bool DFS(int v, int w);
+        void printConnected(int v,string title);
         double calculateDistance(double latFrom, double longFrom, double latTo, double longTo);
         void createEdgeWeights();
         vector<int> getFrom() const {return from;}
