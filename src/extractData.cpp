@@ -256,3 +256,44 @@ void Project::createEdgeWeights() {
     // }
 
 }
+
+int Project::minDistance(map<int, double> dist, map<int, bool> sptSet) {
+    int min = INT_MAX;
+    int min_airport = -1;
+    for (int i = 0; i < (int) airports.size(); i++) {
+        int curr = airports[i];
+        if (sptSet[curr] == false && dist[curr] <= min) {
+            min = dist[curr];
+            min_airport = curr;
+        }
+    }
+    return min_airport;
+}
+
+map<int, double> Project::dijkstras(map<int, vector<int>> graph, int source) {
+    map<int, double> dist;
+    map<int, bool> sptSet;
+    for (int i = 0; i < (int) airports.size(); i++) {
+        dist.insert(pair<int, double> (airports[i], INT_MAX));
+        sptSet.insert(pair<int, bool> (airports[i], false));
+    }
+    dist[source] = 0;
+    for (int count = 0; count < (int) airports.size() - 1; count++) {
+        int u = minDistance(dist, sptSet);
+        sptSet[u] = true;
+        vector<int> neighbours = graph[u];
+        for (int i = 0; i < (int) neighbours.size(); i++) {
+            int v = neighbours[i];
+            vector<int> from_to = {u, v};
+            if (!sptSet[v] && dist[u] != INT_MAX && dist[u] + edgesLabel[from_to] < dist[v]) {
+                dist[v] = dist[u] + edgesLabel[from_to];
+            }
+        }
+    }
+    return dist;
+}
+
+double Project::shortestPath(int from, int to) {
+    map<int, double> shortest_paths = dijkstras(adjacencyLists, from);
+    return shortest_paths[to];
+}
