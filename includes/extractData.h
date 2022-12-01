@@ -38,6 +38,7 @@ class Project {
         bool DFSHelper(int v, int w);
         void printConnectedHelper(int v, string & neatoFile);
     public:
+        Project(string routes_path, string airports_path);
         void readRoutes(string path);
         void readAirports(string path);
         void createAdjacencyList();
@@ -54,5 +55,7 @@ class Project {
         map<int, double> getLatitudes() const {return latitudes;}
         map<int, double> getLongitudes() const {return longitudes;}
         map<int, vector<int>> getMap() const {return adjacencyLists;}
-        Project(string routes_path, string airports_path);
+        int minDistance(map<int, double> dist, map<int, bool> sptSet);
+        map<int, double> dijkstras(map<int, vector<int>> graph, int source);
+        double shortestPath(int from, int to);
 };
