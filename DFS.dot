@@ -1,8 +1,0 @@
-digraph {
-overlap=false;
-fontsize=6;
-normalize=true;
-ranksep=3;
-height=0.1;
-9[color="red"]
-}

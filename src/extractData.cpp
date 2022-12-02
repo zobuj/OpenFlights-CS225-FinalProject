@@ -182,11 +182,10 @@ void Project::savePNG(string title) const
     string filename = title + ".dot";
     neatoFile.open(filename.c_str());
     neatoFile<<"digraph {\n";
-    neatoFile<<"layout=circo;\n"
-                //<<"overlap=twopi;\n"
+    neatoFile<<"layout=twopi;\n"
+                <<"overlap=false;\n"
                 <<"fontsize=6;\n"
                 <<"normalize=true;\n"
-                <<"ranksep=3;\n"
                 <<"ranksep=3;\n"
                 <<"ratio=auto;\n"
                 <<"height=0.1;\n";
@@ -217,7 +216,7 @@ void Project::savePNG(string title) const
 
 
     neatoFile.close();
-    string command = "twopi -Tpng "+ title +".dot -o test.png";
+    string command = "circo -Tpng "+ title +".dot -o test.png";
     int result = system(command.c_str());
 
 
