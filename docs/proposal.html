@@ -1,71 +1,80 @@
 <!DOCTYPE html>
-<head>
-    <link rel="stylesheet" href="style.css">
-</head>
 <html>
+<head>
+    <meta charset="UTF-8">
+    <title>CS225 Final Project</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="proposal.css">
+    
+</head>
 <body>
-    <div class="introduction">
-        <div class="center">
-            <h1>cs225_final_project_</h1>
-            <br/>
-            <h3>developed by: lorenzo, alexis, amir, and aryan</h3>
-        </div>
-    </div>
-    <div class="proposal">
-        <div class="proposalheading">
+    <header>
+        <nav>
+            <a href="index.html">home</a>
+            <a href="proposal.html">proposal</a>
+            <a href="#">demo</a>
+            <a href="#">github</a>
+            <div class="animation"></div>
+        </nav>
+    </header>
+
+    <div class="midsection">
+        <header class="midheading">
             <h1>Project Proposal</h1>
-        </div>
-        <div class="proposaltext">
+        </header>
+        <div class="midtext">
             <h3>Leading Question</h3>
             
             Given a dataset of airports and their connection to other airports around the world, we will construct a program that outputs the shortest distances between an airport and airports to other locations - such as paths 
-
+    
             - Main goal is to take a data set of airports in order to give a user the ability to find the shortest path between two airports
             - Types of ideas will be the path between each of the airports in the countries where the olympics took place, or visiting every capital of the world, formula 1 tracks, historic events, sports, movie locations, nuclear facilities, etc.
             - The weight of each edge will be the raw distance between the two airports, calculated with the longitude and latitude.
-
+    
             <h3>Data Acquisition and Processing</h3>
                 
             The data set we are using is the “OpenFlights” data set from 	https://openflights.org/data.html
-
+    
             Use DFS to traverse the graph to find the inputted airport. Call Dijsktra’s Algorithm on the found node to calculate the distance from the source location to its connected airports. 
-
+    
             <h3>Data Format</h3>
-
+    
             Our data is available in the ‘.dat’ format. Using this, there are simple c++ tools to read through the data and populate our data structure. We will initially read a small number of data in order to make sure our program works on smaller data. There are millions of lines of data, so will start with just one hundred, and slowly grow. The full, raw airports data set is 1MB and the routes data set is 2MB. 
             
             <h3>Data Correction (Data Cleaning)</h3>
-
+    
             Because we have so many lines of data, we can afford to be very strict with the data we store. This means that if there is any field of data that is not fitting with our expectations, we will remove it entirely. Also, the longitude and latitude coordinates for each airport will be rounded to the second decimal place.
-
+    
             <h3>Data Storage</h3>
-
+    
             We will store the dat files locally, on our machines. This is enough for our task because the data itself is constant, there is little to no benefit to storing it on the internet. Reading the data and populating the correct data structures will be linear with respect to the length of the data. Reading each airport will take linear time, and then making the routes for each airport will be at worst squared time.
             
             <h3>Graph Algorithms</h3>
-
+    
             Our first function would build the graph from the csv input file that contains nodes and edges. After building our graph with all nodes as airports and establishing edge connections, we will be using DFS to check if the source and target nodes exist. If they exist, Dijkstra's algorithm finds the distance between a target node and the current source node. We will finally graphically project our created graph onto a world map using a change of basis algorithm. The map will show each airport and the connections that it has to the rest of the airports. Once the shortest path between two airports is found, we will highlight the edges for that path. The change of basis algorithm is one that will transform airport coordinates into pixel locations on a PNG file, which will be the final output.
-
+    
             <h3>Function Inputs</h3>
-
+    
             Our first function will have the two CSV files, airport.dat and routes.dat as inputs and will build the graph based on the given nodes and edges. The second major function will take the source node and target node as an input and check if there exists a path using DFS. Thirdly, the final Dijkstra’s algorithm will take the source and target nodes as an input to locate the shortest path that exists between the source and target nodes. Lastly, our graphical output function will take in the connected graph created before in order to draw accordingly on the PNG.
-
+    
             <h3>Function Outputs</h3>
-
+    
             Our first function will create airport nodes and establish connections between them using routes.dat. We might store the airports in a vector to access them in O(1) time.We will also have an airport subclass and we will assign values to the instance variables with the first airport as the root/start node of the graph. Each Airport object will have the Airport ID, Name, Latitude, Longitude, and a vector of neighbor airports. The second function will output a boolean to check if the source and target nodes exist, and the third one will output the length of the shortest path between the source and target node. The fourth one will output the graph by changing the color of pixels on a PNG. 
-
-
+    
+    
             <h3>Function Efficiency</h3>
-
+    
             The function that builds our graph will have O(n^2) runtime and O(n) storage. The second function should have O(m+n) runtime where m is the number of edges and n is the number of airport nodes. Our target storage efficiency for this one is O(n). The third function implements Dijkstra’s algorithm, so it should have O(n2) time complexity and O(n) space complexity. Our fourth and graphical output function will have O(n) time complexity and O(1) space complexity.
             
             <h3>Timeline</h3>
-
+    
             We will aim to finish the data input and cleaning done by the 11th of November. We will try to finish the searching algorithms by the end of Fall break, the 27th of November. We are also aiming to output this onto a graph visually. We estimate that this will take us the rest of the time till the deadline. All of these deadlines are tentative.
-
-
+    
+    
         </div>
     </div>
-    
 </body>
+
+
 </html>

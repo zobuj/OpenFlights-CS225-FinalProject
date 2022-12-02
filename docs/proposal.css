@@ -1,0 +1,24 @@
+.midsection{
+
+    border:solid;
+    width:100%;
+    
+}
+.midheading{
+    font-family: monaco,monospace;
+    text-align: center;
+    color:white;
+    border:solid;
+    border-color: black;
+}
+.midtext{
+    
+    font-family: monaco,monospace;
+    text-align: center;
+    color:white;
+    border:solid;
+    border-color:black;
+
+    white-space: pre-line;
+}
+
