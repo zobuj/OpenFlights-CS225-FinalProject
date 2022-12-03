@@ -58,22 +58,23 @@ void Project::readAirports(string path) {
                 if (record.substr(i,1) == "\"") quotes++;
                 if (record.substr(i,1) == "," && quotes % 2 == 0) {
                     if (count == 0) airports.push_back(stoi(temp));
+                    else if (count == 5) airportCode.push_back(temp.substr(1, temp.size() - 2));
                     else if (count == 6) latitudes.insert(std::pair<int, double>(airports.back(), stod(temp)));
                     else if (count == 7) longitudes.insert(std::pair<int, double>(airports.back(), stod(temp)));
                     temp = "";
                     count++;
-                } else if (count == 0 || count == 6 || count == 7) {
+                } else if (count == 0 || count == 6 || count == 7 || count == 5) {
                     temp += record[i];
                 }
             }
         }
         airport_csv.close();
     }
-    // for (int i = 0; i < (int) airports.size(); i++) {
-    //     cout << "Airport: " << airports[i] <<  endl;
-    //     cout << "Latitude: " << latitudes[airports[i]] <<  endl;
-    //     cout << "Longitude: " << longitudes[airports[i]] <<  endl;
-    // }
+    for (int i = 0; i < (int) airportCode.size(); i++) {
+        cout << "Airport: " << airportCode[i] <<  endl;
+        // cout << "Latitude: " << latitudes[airports[i]] <<  endl;
+        // cout << "Longitude: " << longitudes[airports[i]] <<  endl;
+    }
     // cout << "Size: " << airports.size() << endl;
 }
 

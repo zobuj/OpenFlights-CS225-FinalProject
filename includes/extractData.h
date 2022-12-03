@@ -32,6 +32,7 @@ class Project {
         map<int, double> longitudes;
 
         vector<int> airports;
+        vector<string> airportCode;
         map<int, vector<int> > adjacencyLists;
         map<int, bool> verticesLabel;
         map<vector<int>, double> edgesLabel;
