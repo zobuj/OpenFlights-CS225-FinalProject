@@ -25,7 +25,7 @@ void ReadAirportsSimple() {
         assert(airports_expected[i] == airports_actual[i]);
     }
 
-    vector<double> latitudes_expected = {-6.08168983, -5.207, -5.826789, -6.5698, -9.4433803, -3.5838, 61.160499, 64.1909, 67.0122};
+    vector<double> latitudes_expected = {0, 1, 2, 0, 1, 2, 0, 1, 2};
     map<int, double> latitudes_actual = init.getLatitudes();
     assert(latitudes_expected.size() == latitudes_actual.size());
     for (int i = 0 ; i < (int) latitudes_expected.size(); i++) {
@@ -34,7 +34,7 @@ void ReadAirportsSimple() {
         assert(((int) latitudes_expected[i]) == ((int) latitudes_actual[airports_actual[i]]));
     }
 
-    vector<double> longitudes_expected = {145.391998, 145.7890, 144.2960052490, 146.72, 147.220001, 143.669, -45.425998, -51.67810, -50.71160};
+    vector<double> longitudes_expected = {0, 0, 0, 1, 1, 1, 2, 2, 2};
     map<int, double> longitudes_actual = init.getLongitudes();
     assert(longitudes_expected.size() == longitudes_actual.size());
     for (int i = 0 ; i < (int) longitudes_expected.size(); i++) {
@@ -73,6 +73,7 @@ int main() {
     ReadAirportsSimple();
     PathExist();
     TestsAdjacencyLists();
+    testSimpleGraphOutput();
 }
 void TestsAdjacencyLists() {
     
@@ -106,4 +107,13 @@ void TestsAdjacencyLists() {
 
     }
     cout << "Testing Map: ALL ASSERTIONS PASSED"<<endl;
+}
+
+void testSimpleGraphOutput() {
+    Project init(getRoutesPath(),getAirportsPath());
+    init.savePNG("suite");
+    int val =system("diff suite.dot sample.dot");
+    assert(val==0);
+    cout<<"Testing Graph-Passed All Simple Graph Assertions" <<endl;
+
 }

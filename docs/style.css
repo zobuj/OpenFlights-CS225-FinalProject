@@ -1,0 +1,31 @@
+
+html{
+    background-color: black;
+}
+.container{
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    height: 500px;
+    width:100%;
+    border:solid;
+    
+    
+}
+.introduction{
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    height:350px;
+    width:100%;
+    border:solid;
+    
+    
+}
+.center{
+    font-family: monaco,monospace;
+    text-align: center;
+    color:white;
+}
+
+
