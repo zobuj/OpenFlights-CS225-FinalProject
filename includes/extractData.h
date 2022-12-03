@@ -30,14 +30,18 @@ class Project {
         vector<int> to;
         map<int, double> latitudes;
         map<int, double> longitudes;
+
         vector<int> airports;
+        vector<string> airportCode;
         map<int, vector<int> > adjacencyLists;
+        map<int, vector<int> > adjacencyListDijkstras;
         map<int, bool> verticesLabel;
         map<vector<int>, double> edgesLabel;
         //bool DFSHelper(int from, int to);
         bool DFSHelper(int v, int w);
         void printConnectedHelper(int v, string & neatoFile);
     public:
+        void printCoord();
         Project(string routes_path, string airports_path);
         void readRoutes(string path);
         void readAirports(string path);

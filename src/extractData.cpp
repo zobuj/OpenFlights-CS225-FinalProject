@@ -58,22 +58,23 @@ void Project::readAirports(string path) {
                 if (record.substr(i,1) == "\"") quotes++;
                 if (record.substr(i,1) == "," && quotes % 2 == 0) {
                     if (count == 0) airports.push_back(stoi(temp));
+                    else if (count == 5) airportCode.push_back(temp.substr(1, temp.size() - 2));
                     else if (count == 6) latitudes.insert(std::pair<int, double>(airports.back(), stod(temp)));
                     else if (count == 7) longitudes.insert(std::pair<int, double>(airports.back(), stod(temp)));
                     temp = "";
                     count++;
-                } else if (count == 0 || count == 6 || count == 7) {
+                } else if (count == 0 || count == 6 || count == 7 || count == 5) {
                     temp += record[i];
                 }
             }
         }
         airport_csv.close();
     }
-    // for (int i = 0; i < (int) airports.size(); i++) {
-    //     cout << "Airport: " << airports[i] <<  endl;
-    //     cout << "Latitude: " << latitudes[airports[i]] <<  endl;
-    //     cout << "Longitude: " << longitudes[airports[i]] <<  endl;
-    // }
+    for (int i = 0; i < (int) airportCode.size(); i++) {
+        cout << "Airport: " << airportCode[i] <<  endl;
+        // cout << "Latitude: " << latitudes[airports[i]] <<  endl;
+        // cout << "Longitude: " << longitudes[airports[i]] <<  endl;
+    }
     // cout << "Size: " << airports.size() << endl;
 }
 
@@ -86,8 +87,18 @@ void Project::createAdjacencyList() {
     }
     for (int i = 0; i < (int) from.size(); i++) {
         if (adjacencyLists.find(from[i]) != adjacencyLists.end() && adjacencyLists.find(to[i]) != adjacencyLists.end()) {
-            
             adjacencyLists[from[i]].push_back(to[i]); //routes are directional
+            bool found = false;
+            vector<int> temp2=adjacencyLists[from[i]];
+            for(size_t j=0;j<temp2.size();j++){
+                if(temp2[j]==to[i]){
+                    found=true;
+                    break;
+                }
+            }
+            if(!found){
+                adjacencyLists[from[i]].push_back(to[i]); //routes are directional
+            }
         }
     }
     // for (int i = 0; i < (int) adjacencyLists[1].size(); i++) {
@@ -183,7 +194,7 @@ void Project::savePNG(string title) const
     string filename = title + ".dot";
     neatoFile.open(filename.c_str());
     neatoFile<<"digraph {\n";
-    neatoFile<<"layout=twopi;\n"
+    neatoFile<<"layout=neato;\n"
                 <<"overlap=false;\n"
                 <<"fontsize=6;\n"
                 <<"normalize=true;\n"
@@ -194,10 +205,17 @@ void Project::savePNG(string title) const
     int localcount=0;
     int maxcount=0;
     int maxNode=0;
-    for (auto x = adjacencyLists.begin(); x != adjacencyLists.end(); ++x) {
+    neatoFile << "1[color=\"red\", style=\"filled\"]\n";
+    neatoFile << "6[color=\"red\", style=\"filled\"]\n";
+    for (auto x = adjacencyListDijkstras.begin(); x != adjacencyListDijkstras.end(); ++x) {
         // x shoudl be a pair of int and vector
         localcount=0;
+        //cout<<"current node: "<<(*x).first<<endl;
         for (unsigned i = 0; i < x->second.size();++i) {
+            
+        // int x_first =(*x).first;
+        // neatoFile<< (x->first);//<<"[pos=\""<<latitudes.at(x_first)<<","<<longitudes.at(x_first)<<"!\"]\n";
+            
             neatoFile << (x->first)<<"->";
             neatoFile << x->second[i] << "[arrowhead=halfopen]\n";
             localcount++;
@@ -206,9 +224,10 @@ void Project::savePNG(string title) const
             maxcount=localcount;
             maxNode=x->first;
         }
-        /*if(x->second.size()==0){
+        /*if(x->second.size()==0){//prints islands
             neatoFile<<(x->first)<<"\n";
         }*/
+        //neatoFile<<"\n";
     }
     cout<<maxNode<<endl;
     //neatoFile<<"root="<<maxNode;
@@ -228,13 +247,6 @@ void Project::savePNG(string title) const
     }
 }
 
-/*
-void Project::printTo(){
-    
-    for(size_t i=0;i<to.size();i++){
-        std::cout<<from[i]<<" -> "<<to[i]<<std::endl;
-    }
-}*/
 double Project::calculateDistance(double latFrom, double longFrom, double latTo, double longTo) {
     return sqrt(((latFrom - latTo) * (latFrom - latTo)) + ((longFrom - longTo) * (longFrom - longTo)));
 }
@@ -273,6 +285,7 @@ int Project::minDistance(map<int, double> dist, map<int, bool> sptSet) {
 map<int, double> Project::dijkstras(map<int, vector<int>> graph, int source) {
     map<int, double> dist;
     map<int, bool> sptSet;
+    adjacencyListDijkstras.clear();
     for (int i = 0; i < (int) airports.size(); i++) {
         dist.insert(pair<int, double> (airports[i], INT_MAX));
         sptSet.insert(pair<int, bool> (airports[i], false));
@@ -280,12 +293,16 @@ map<int, double> Project::dijkstras(map<int, vector<int>> graph, int source) {
     dist[source] = 0;
     for (int count = 0; count < (int) airports.size() - 1; count++) {
         int u = minDistance(dist, sptSet);
+        if (adjacencyListDijkstras.find(u) == adjacencyListDijkstras.end()) {
+            adjacencyListDijkstras.insert(pair<int, vector<int> > (u, vector<int>()));
+        }
         sptSet[u] = true;
         vector<int> neighbours = graph[u];
         for (int i = 0; i < (int) neighbours.size(); i++) {
             int v = neighbours[i];
             vector<int> from_to = {u, v};
             if (!sptSet[v] && dist[u] != INT_MAX && dist[u] + edgesLabel[from_to] < dist[v]) {
+                adjacencyListDijkstras[u].push_back(v);
                 dist[v] = dist[u] + edgesLabel[from_to];
             }
         }
@@ -298,5 +315,20 @@ double Project::shortestPath(int from, int to) {
         return 0;
     }
     map<int, double> shortest_paths = dijkstras(adjacencyLists, from);
+    for (auto it = adjacencyListDijkstras.begin(); it != adjacencyListDijkstras.end(); it++) {
+        cout << endl << it->first << "  : ";
+        for (int i = 0; i < (int) it->second.size(); i++) {
+            cout << it->second[i] << ", ";
+        }
+        cout << endl;
+    }
+    // adjacencyListDijkstras.clear();
     return shortest_paths[to];
+}
+
+void Project::printCoord(){
+    for(int i =0;i<100;i++){
+        cout<<"Long: "<<longitudes[i]<<", Lat: "<<latitudes[i]<<endl;
+    }
+    
 }
