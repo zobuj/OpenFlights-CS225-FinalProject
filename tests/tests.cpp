@@ -2,7 +2,6 @@
 using namespace std;
 
 void ReadRoutesSimple() {
-    
     Project init(getRoutesPath(),getAirportsPath());
     vector<int> from_expected = {9,9,9,9,1,2,4,3};
     vector<int> from_actual = init.getFrom();
@@ -18,7 +17,6 @@ void ReadRoutesSimple() {
     cout << "Read Routes Simple: ALL ASSERTIONS PASSED" << endl;
 }
 void ReadAirportsSimple() {
-    
     Project init(getRoutesPath(),getAirportsPath());
     vector<int> airports_expected = {1,2,3,4,5,6,7,8,9};
     vector<int> airports_actual = init.getAirports();
@@ -45,16 +43,36 @@ void ReadAirportsSimple() {
     cout << "Read Airports Simple: ALL ASSERTIONS PASSED" << endl;
 }
 
-int main() {
-    ReadRoutesSimple();
-    ReadAirportsSimple();
-    TestsAdjacencyLists();
+void PathExist() {
+    Project init(getRoutesPath(),getAirportsPath());
+
+    assert(init.DFS(9, 4) == 1);
+    assert(init.DFS(4, 9) == 0);
+
+    //one step path
+    assert(init.DFS(2, 6) == 1);
+    assert(init.DFS(9, 1) == 1);
+
+    //Mulitple step paths
+    assert(init.DFS(4, 8) == 1);
+    assert(init.DFS(9, 6) == 1);
+
+    //no connections (no paths)
+    assert(init.DFS(7, 9) == 0);
+
+    //strict directional paths (one direction)
+    assert(init.DFS(8, 3) == 0);
+    assert(init.DFS(5, 4) == 0);
+
+    cout << "Path Exists: ALL ASSERTIONS PASSED" << endl;
 }
+
+
 void TestsAdjacencyLists() {
     
     Project init(getRoutesPath(),getAirportsPath());
     
-    map<int, vector<int>> map_actual = init.getMap();
+    map<int, vector<int>> map_actual = init.getGraph();
     vector<int> adj_keys_expected = {1,2,3,4,5,6,7,8,9};
     vector<vector<int>> adj_l_expected
     {
@@ -82,4 +100,20 @@ void TestsAdjacencyLists() {
 
     }
     cout << "Testing Map: ALL ASSERTIONS PASSED"<<endl;
+}
+
+void testSimpleGraphOutput() {
+    Project init(getRoutesPath(),getAirportsPath());
+    init.savePNG("suite");
+    int val =system("diff suite.dot sample.dot");
+    assert(val==0);
+    cout<<"Testing Graph-Passed All Simple Graph Assertions" <<endl;
+
+}
+int main() {
+    ReadRoutesSimple();
+    ReadAirportsSimple();
+    PathExist();
+    TestsAdjacencyLists();
+    testSimpleGraphOutput();
 }
