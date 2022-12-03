@@ -1,4 +1,4 @@
-#include "../includes/extractData.h"
+#include "../includes/project.h"
 
 #include <fstream>
 #include <iostream>
@@ -30,11 +30,8 @@ int main() {
     
     //std::cout << "connection between 7 and 3: " + to_string(init.DFS(7, 3)) << std::endl;
     //init.printConnected(9,"DFS");
-
-    init.createEdgeWeights();
     cout << "Shortest Path from Aamir's Airport to Zo_2 Airport: " << init.shortestPath(1, 6) << endl;
     init.savePNG("test");
-    //init.createEdgeWeights();
     //cout << "Shortest Path from Aamir's Airport to Zo_2 Airport: " << init.shortestPath(1, 6) << endl;
 
 

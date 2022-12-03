@@ -1,9 +1,10 @@
-#include "../includes/extractData.h"
+#include "../includes/project.h"
 
 Project::Project(string routes_path, string airports_path){
     readAirports(airports_path);
     readRoutes(routes_path);
     createAdjacencyList();
+    createEdgeWeights();
 }
 void Project::readRoutes(string path) {
     string line;
