@@ -34,6 +34,7 @@ class Project {
         vector<int> airports;
         vector<string> airportCode;
         map<int, vector<int> > adjacencyLists;
+        map<int, vector<int> > adjacencyListDijkstras;
         map<int, bool> verticesLabel;
         map<vector<int>, double> edgesLabel;
         //bool DFSHelper(int from, int to);

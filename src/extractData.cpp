@@ -193,7 +193,7 @@ void Project::savePNG(string title) const
     string filename = title + ".dot";
     neatoFile.open(filename.c_str());
     neatoFile<<"digraph {\n";
-    neatoFile<<"layout=twopi;\n"
+    neatoFile<<"layout=neato;\n"
                 <<"overlap=false;\n"
                 <<"fontsize=6;\n"
                 <<"normalize=true;\n"
@@ -204,14 +204,16 @@ void Project::savePNG(string title) const
     int localcount=0;
     int maxcount=0;
     int maxNode=0;
-    for (auto x = adjacencyLists.begin(); x != adjacencyLists.end(); ++x) {
+    neatoFile << "1[color=\"red\", style=\"filled\"]\n";
+    neatoFile << "6[color=\"red\", style=\"filled\"]\n";
+    for (auto x = adjacencyListDijkstras.begin(); x != adjacencyListDijkstras.end(); ++x) {
         // x shoudl be a pair of int and vector
         localcount=0;
         //cout<<"current node: "<<(*x).first<<endl;
-        int x_first =(*x).first;
-        neatoFile<< (x->first)<<"[pos=\""<<latitudes.at(x_first)<<","<<longitudes.at(x_first)<<"!\"]\n";
         for (unsigned i = 0; i < x->second.size();++i) {
             
+        // int x_first =(*x).first;
+        // neatoFile<< (x->first);//<<"[pos=\""<<latitudes.at(x_first)<<","<<longitudes.at(x_first)<<"!\"]\n";
             
             neatoFile << (x->first)<<"->";
             neatoFile << x->second[i] << "[arrowhead=halfopen]\n";
@@ -282,6 +284,7 @@ int Project::minDistance(map<int, double> dist, map<int, bool> sptSet) {
 map<int, double> Project::dijkstras(map<int, vector<int>> graph, int source) {
     map<int, double> dist;
     map<int, bool> sptSet;
+    adjacencyListDijkstras.clear();
     for (int i = 0; i < (int) airports.size(); i++) {
         dist.insert(pair<int, double> (airports[i], INT_MAX));
         sptSet.insert(pair<int, bool> (airports[i], false));
@@ -289,12 +292,16 @@ map<int, double> Project::dijkstras(map<int, vector<int>> graph, int source) {
     dist[source] = 0;
     for (int count = 0; count < (int) airports.size() - 1; count++) {
         int u = minDistance(dist, sptSet);
+        if (adjacencyListDijkstras.find(u) == adjacencyListDijkstras.end()) {
+            adjacencyListDijkstras.insert(pair<int, vector<int> > (u, vector<int>()));
+        }
         sptSet[u] = true;
         vector<int> neighbours = graph[u];
         for (int i = 0; i < (int) neighbours.size(); i++) {
             int v = neighbours[i];
             vector<int> from_to = {u, v};
             if (!sptSet[v] && dist[u] != INT_MAX && dist[u] + edgesLabel[from_to] < dist[v]) {
+                adjacencyListDijkstras[u].push_back(v);
                 dist[v] = dist[u] + edgesLabel[from_to];
             }
         }
@@ -304,6 +311,14 @@ map<int, double> Project::dijkstras(map<int, vector<int>> graph, int source) {
 
 double Project::shortestPath(int from, int to) {
     map<int, double> shortest_paths = dijkstras(adjacencyLists, from);
+    for (auto it = adjacencyListDijkstras.begin(); it != adjacencyListDijkstras.end(); it++) {
+        cout << endl << it->first << "  : ";
+        for (int i = 0; i < (int) it->second.size(); i++) {
+            cout << it->second[i] << ", ";
+        }
+        cout << endl;
+    }
+    // adjacencyListDijkstras.clear();
     return shortest_paths[to];
 }
 
