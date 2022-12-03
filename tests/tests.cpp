@@ -68,18 +68,11 @@ void PathExist() {
 }
 
 
-int main() {
-    ReadRoutesSimple();
-    ReadAirportsSimple();
-    PathExist();
-    TestsAdjacencyLists();
-    testSimpleGraphOutput();
-}
 void TestsAdjacencyLists() {
     
     Project init(getRoutesPath(),getAirportsPath());
     
-    map<int, vector<int>> map_actual = init.getMap();
+    map<int, vector<int>> map_actual = init.getGraph();
     vector<int> adj_keys_expected = {1,2,3,4,5,6,7,8,9};
     vector<vector<int>> adj_l_expected
     {
@@ -116,4 +109,11 @@ void testSimpleGraphOutput() {
     assert(val==0);
     cout<<"Testing Graph-Passed All Simple Graph Assertions" <<endl;
 
+}
+int main() {
+    ReadRoutesSimple();
+    ReadAirportsSimple();
+    PathExist();
+    TestsAdjacencyLists();
+    testSimpleGraphOutput();
 }
