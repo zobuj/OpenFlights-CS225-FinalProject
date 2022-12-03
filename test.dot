@@ -1,0 +1,12 @@
+dotSrc =
+  digraph {
+    graph [pad="0.212,0.055" bgcolor=lightgray]
+    node [style=filled]
+    a [fillcolor="#d62728" pos="0,0!"]
+    b [fillcolor="#1f77b4" pos="0,1!"]
+    c [fillcolor="#2ca02c" pos="2,2!"]
+    d [fillcolor="#ff7f0e" pos="-1,2"]
+    a -> b
+    a -> c
+    a -> d
+  }

@@ -87,7 +87,17 @@ void Project::createAdjacencyList() {
     }
     for (int i = 0; i < (int) from.size(); i++) {
         if (adjacencyLists.find(from[i]) != adjacencyLists.end() && adjacencyLists.find(to[i]) != adjacencyLists.end()) {
-            adjacencyLists[from[i]].push_back(to[i]); //routes are directional
+            bool found = false;
+            vector<int> temp2=adjacencyLists[from[i]];
+            for(size_t j=0;j<temp2.size();j++){
+                if(temp2[j]==to[i]){
+                    found=true;
+                    break;
+                }
+            }
+            if(!found){
+                adjacencyLists[from[i]].push_back(to[i]); //routes are directional
+            }
         }
     }
     // for (int i = 0; i < (int) adjacencyLists[1].size(); i++) {
@@ -197,7 +207,12 @@ void Project::savePNG(string title) const
     for (auto x = adjacencyLists.begin(); x != adjacencyLists.end(); ++x) {
         // x shoudl be a pair of int and vector
         localcount=0;
+        //cout<<"current node: "<<(*x).first<<endl;
+        int x_first =(*x).first;
+        neatoFile<< (x->first)<<"[pos=\""<<latitudes.at(x_first)<<","<<longitudes.at(x_first)<<"!\"]\n";
         for (unsigned i = 0; i < x->second.size();++i) {
+            
+            
             neatoFile << (x->first)<<"->";
             neatoFile << x->second[i] << "[arrowhead=halfopen]\n";
             localcount++;
@@ -206,9 +221,10 @@ void Project::savePNG(string title) const
             maxcount=localcount;
             maxNode=x->first;
         }
-        /*if(x->second.size()==0){
+        /*if(x->second.size()==0){//prints islands
             neatoFile<<(x->first)<<"\n";
         }*/
+        //neatoFile<<"\n";
     }
     cout<<maxNode<<endl;
     //neatoFile<<"root="<<maxNode;
@@ -228,13 +244,6 @@ void Project::savePNG(string title) const
     }
 }
 
-/*
-void Project::printTo(){
-    
-    for(size_t i=0;i<to.size();i++){
-        std::cout<<from[i]<<" -> "<<to[i]<<std::endl;
-    }
-}*/
 double Project::calculateDistance(double latFrom, double longFrom, double latTo, double longTo) {
     return sqrt(((latFrom - latTo) * (latFrom - latTo)) + ((longFrom - longTo) * (longFrom - longTo)));
 }
@@ -296,4 +305,11 @@ map<int, double> Project::dijkstras(map<int, vector<int>> graph, int source) {
 double Project::shortestPath(int from, int to) {
     map<int, double> shortest_paths = dijkstras(adjacencyLists, from);
     return shortest_paths[to];
+}
+
+void Project::printCoord(){
+    for(int i =0;i<100;i++){
+        cout<<"Long: "<<longitudes[i]<<", Lat: "<<latitudes[i]<<endl;
+    }
+    
 }
