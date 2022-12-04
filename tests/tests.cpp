@@ -46,27 +46,26 @@ void ReadAirportsSimple() {
 void SimplePathExist() {
     Project init(getSimpleRoutesPath(),getSimpleAirportsPath());
 
-    assert(init.DFS(9, 4) == 1);
-    assert(init.DFS(4, 9) == 0);
+    assert(init.AirportConnection("BGSF", "AYNZ") == 1);
+    assert(init.AirportConnection("AYNZ", "BGSF") == 0);
 
     //one step path
-    assert(init.DFS(2, 6) == 1);
-    assert(init.DFS(9, 1) == 1);
+    assert(init.AirportConnection("AYMD", "AYWK") == 1);
+    assert(init.AirportConnection("BGSF", "AYGA") == 1);
 
     //Mulitple step paths
-    assert(init.DFS(4, 8) == 1);
-    assert(init.DFS(9, 6) == 1);
+    assert(init.AirportConnection("AYNZ", "BGGH") == 1);
+    assert(init.AirportConnection("BGSF", "AYWK") == 1);
 
     //no connections (no paths)
-    assert(init.DFS(7, 9) == 0);
+    assert(init.AirportConnection("BGBW", "BGSF") == 0);
 
     //strict directional paths (one direction)
-    assert(init.DFS(8, 3) == 0);
-    assert(init.DFS(5, 4) == 0);
+    assert(init.AirportConnection("BGGH", "AYMH") == 0);
+    assert(init.AirportConnection("AYPY", "AYNZ") == 0);
 
     cout << "Path Exists: ALL ASSERTIONS PASSED" << endl;
 }
-/*
 void TestsAdjacencyListsSimple() {
     
     Project init(getSimpleRoutesPath(),getSimpleAirportsPath());
@@ -100,7 +99,6 @@ void TestsAdjacencyListsSimple() {
     }
     cout << "Testing Map: ALL ASSERTIONS PASSED"<<endl;
 }
-*/
 
 void testSimpleGraphOutput() {
     Project init(getSimpleRoutesPath(),getSimpleAirportsPath());
@@ -113,8 +111,8 @@ void TestD(){
     Project init(getDijkstrasRoutesPath(),getDijkstrasAirportsPath());
     vector<double> solutions = {12.4,6.3,11.6,3.6,6.7,0.0};
     // Note: Due to possible rounding errors, we will round all our values down to the nearest tenth and check if the rounded distance matches
-    vector<int> to_airportIDs = {1,2,3,4,5,6}; //Every airport in our dataset
-    int target = 6; //Our target airport has ID 6, 'Zo_2'
+    vector<string> to_airportIDs = {"AYGA","AYMD","AYMH","AYNZ","AYPY","AYWK"}; //Every airport in our dataset
+    string target = "AYWK"; //Our target airport has ID 6, 'Zo_2'
     for (unsigned i = 0; i < to_airportIDs.size(); ++i) {
         double shortest_distance = init.shortestPath(to_airportIDs[i], target);
         assert(abs(shortest_distance - solutions[i]) < 0.1);
@@ -125,7 +123,7 @@ int main() {
     ReadRoutesSimple();
     ReadAirportsSimple();
     SimplePathExist();
-    //TestsAdjacencyListsSimple();
+    TestsAdjacencyListsSimple();
     TestD();
     // for aamir this won't work bc of graphviz package installment issues
     

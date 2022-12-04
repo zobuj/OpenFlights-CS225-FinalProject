@@ -1,4 +1,4 @@
-#include "../includes/extractData.h"
+#include "../includes/project.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -7,6 +7,7 @@ void ReadRoutesSimple();
 void ReadAirportsSimple();
 void TestsAdjacencyLists();
 void testSimpleGraphOutput();
+
 string getSimpleRoutesPath() {return "../OpenFlights-CS225-FinalProject/data/sample/sampleroutes.dat";}
 string getSimpleAirportsPath() {return  "../OpenFlights-CS225-FinalProject/data/sample/sampleairports.dat";}
 string getDijkstrasRoutesPath() {return "../OpenFlights-CS225-FinalProject/data/sample/sampleroutesdijkstras.dat";}
