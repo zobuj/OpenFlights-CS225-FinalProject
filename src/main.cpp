@@ -14,9 +14,6 @@ string getAirportsPath() {return  "../OpenFlights-CS225-FinalProject/data/sample
 int main() {
 
     Project init(getRoutesPath(),getAirportsPath());
-    int x; 
-    cout << "Type a number: "; // Type a number and press enter
-    cin >> x;
     
     // init.printMap();
     
