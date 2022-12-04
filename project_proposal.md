@@ -42,7 +42,7 @@ Our first function will create airport nodes and establish connections between t
 
 ## Function Efficiency
 
-The function that builds our graph will have O(n^2) runtime and O(n) storage. The second function should have O(m+n) runtime where m is the number of edges and n is the number of airport nodes. Our target storage efficiency for this one is O(n). The third function implements Dijkstra’s algorithm, so it should have O(n2) time complexity and O(n) space complexity. Our fourth and graphical output function will have O(n) time complexity and O(1) space complexity.
+The function that builds our graph will have O(n^2) runtime and O(n) storage. The second function should have O(m+n) runtime where m is the number of edges and n is the number of airport nodes. Our target storage efficiency for this one is O(n). The third function implements Dijkstra’s algorithm, so it should have O(n^2) time complexity and O(n) space complexity. Our fourth and graphical output function will have O(n) time complexity and O(1) space complexity.
  
 ## Timeline
 
