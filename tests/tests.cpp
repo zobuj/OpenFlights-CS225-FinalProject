@@ -1,8 +1,8 @@
 #include "../includes/tests.h"
-using namespace std;
+
 
 void ReadRoutesSimple() {
-    Project init(getRoutesPath(),getAirportsPath());
+    Project init(getSimpleRoutesPath(),getSimpleAirportsPath());
     vector<int> from_expected = {9,9,9,9,1,2,4,3};
     vector<int> from_actual = init.getFrom();
     vector<int> to_expected =   {1,2,3,4,5,6,8,7};
@@ -17,7 +17,7 @@ void ReadRoutesSimple() {
     cout << "Read Routes Simple: ALL ASSERTIONS PASSED" << endl;
 }
 void ReadAirportsSimple() {
-    Project init(getRoutesPath(),getAirportsPath());
+    Project init(getSimpleRoutesPath(),getSimpleAirportsPath());
     vector<int> airports_expected = {1,2,3,4,5,6,7,8,9};
     vector<int> airports_actual = init.getAirports();
     assert(airports_expected.size() == airports_actual.size());
@@ -25,7 +25,7 @@ void ReadAirportsSimple() {
         assert(airports_expected[i] == airports_actual[i]);
     }
 
-    vector<double> latitudes_expected = {-6.08168983, -5.207, -5.826789, -6.5698, -9.4433803, -3.5838, 61.160499, 64.1909, 67.0122};
+    vector<double> latitudes_expected = {-1, 0, 1, -1, 0, 1, -1, 0, 1};
     map<int, double> latitudes_actual = init.getLatitudes();
     assert(latitudes_expected.size() == latitudes_actual.size());
     for (int i = 0 ; i < (int) latitudes_expected.size(); i++) {
@@ -34,7 +34,7 @@ void ReadAirportsSimple() {
         assert(((int) latitudes_expected[i]) == ((int) latitudes_actual[airports_actual[i]]));
     }
 
-    vector<double> longitudes_expected = {145.391998, 145.7890, 144.2960052490, 146.72, 147.220001, 143.669, -45.425998, -51.67810, -50.71160};
+    vector<double> longitudes_expected = {2, 2, 2, 1, 1, 1, 0, 0, 0};
     map<int, double> longitudes_actual = init.getLongitudes();
     assert(longitudes_expected.size() == longitudes_actual.size());
     for (int i = 0 ; i < (int) longitudes_expected.size(); i++) {
@@ -43,34 +43,32 @@ void ReadAirportsSimple() {
     cout << "Read Airports Simple: ALL ASSERTIONS PASSED" << endl;
 }
 
-void PathExist() {
-    Project init(getRoutesPath(),getAirportsPath());
+void SimplePathExist() {
+    Project init(getSimpleRoutesPath(),getSimpleAirportsPath());
 
-    assert(init.DFS(9, 4) == 1);
-    assert(init.DFS(4, 9) == 0);
+    assert(init.AirportConnection("BGSF", "AYNZ") == 1);
+    assert(init.AirportConnection("AYNZ", "BGSF") == 0);
 
     //one step path
-    assert(init.DFS(2, 6) == 1);
-    assert(init.DFS(9, 1) == 1);
+    assert(init.AirportConnection("AYMD", "AYWK") == 1);
+    assert(init.AirportConnection("BGSF", "AYGA") == 1);
 
     //Mulitple step paths
-    assert(init.DFS(4, 8) == 1);
-    assert(init.DFS(9, 6) == 1);
+    assert(init.AirportConnection("AYNZ", "BGGH") == 1);
+    assert(init.AirportConnection("BGSF", "AYWK") == 1);
 
     //no connections (no paths)
-    assert(init.DFS(7, 9) == 0);
+    assert(init.AirportConnection("BGBW", "BGSF") == 0);
 
     //strict directional paths (one direction)
-    assert(init.DFS(8, 3) == 0);
-    assert(init.DFS(5, 4) == 0);
+    assert(init.AirportConnection("BGGH", "AYMH") == 0);
+    assert(init.AirportConnection("AYPY", "AYNZ") == 0);
 
     cout << "Path Exists: ALL ASSERTIONS PASSED" << endl;
 }
-
-
-void TestsAdjacencyLists() {
+void TestsAdjacencyListsSimple() {
     
-    Project init(getRoutesPath(),getAirportsPath());
+    Project init(getSimpleRoutesPath(),getSimpleAirportsPath());
     
     map<int, vector<int>> map_actual = init.getGraph();
     vector<int> adj_keys_expected = {1,2,3,4,5,6,7,8,9};
@@ -103,17 +101,30 @@ void TestsAdjacencyLists() {
 }
 
 void testSimpleGraphOutput() {
-    Project init(getRoutesPath(),getAirportsPath());
+    Project init(getSimpleRoutesPath(),getSimpleAirportsPath());
     init.savePNG("suite");
     int val =system("diff suite.dot sample.dot");
     assert(val==0);
     cout<<"Testing Graph-Passed All Simple Graph Assertions" <<endl;
-
+}
+void TestD(){
+    Project init(getDijkstrasRoutesPath(),getDijkstrasAirportsPath());
+    vector<double> solutions = {12.4,6.3,11.6,3.6,6.7,0.0};
+    // Note: Due to possible rounding errors, we will round all our values down to the nearest tenth and check if the rounded distance matches
+    vector<string> to_airportIDs = {"AYGA","AYMD","AYMH","AYNZ","AYPY","AYWK"}; //Every airport in our dataset
+    string target = "AYWK"; //Our target airport has ID 6, 'Zo_2'
+    for (unsigned i = 0; i < to_airportIDs.size(); ++i) {
+        double shortest_distance = init.shortestPath(to_airportIDs[i], target);
+        assert(abs(shortest_distance - solutions[i]) < 0.1);
+    } 
+    cout << "Dijkstras on Simple Paths: ALL TEST CASES PASSED" << endl;
 }
 int main() {
     ReadRoutesSimple();
     ReadAirportsSimple();
-    PathExist();
-    TestsAdjacencyLists();
-    testSimpleGraphOutput();
+    SimplePathExist();
+    TestsAdjacencyListsSimple();
+    TestD();
+    // for aamir this won't work bc of graphviz package installment issues
+    
 }

@@ -51,6 +51,7 @@ void Project::readAirports(string path) {
     // replace with absolute path of your own
     airport_csv.open(path);
     if (airport_csv.is_open()) {
+        int currPort = 1;
         while (getline(airport_csv, record)) {
             int quotes = 0;
             int count = 0;
@@ -59,7 +60,10 @@ void Project::readAirports(string path) {
                 if (record.substr(i,1) == "\"") quotes++;
                 if (record.substr(i,1) == "," && quotes % 2 == 0) {
                     if (count == 0) airports.push_back(stoi(temp));
-                    else if (count == 5) airportCode.push_back(temp.substr(1, temp.size() - 2));
+                    else if (count == 5) {
+                        airportCode.push_back(temp.substr(1, temp.size() - 2));
+                        airportMap.insert(std::pair<string, int>(temp.substr(1, temp.size() - 2), currPort));
+                    }
                     else if (count == 6) latitudes.insert(std::pair<int, double>(airports.back(), stod(temp)));
                     else if (count == 7) longitudes.insert(std::pair<int, double>(airports.back(), stod(temp)));
                     temp = "";
@@ -68,14 +72,22 @@ void Project::readAirports(string path) {
                     temp += record[i];
                 }
             }
+            currPort++;
         }
         airport_csv.close();
     }
-    for (int i = 0; i < (int) airportCode.size(); i++) {
-        cout << "Airport: " << airportCode[i] <<  endl;
-        // cout << "Latitude: " << latitudes[airports[i]] <<  endl;
-        // cout << "Longitude: " << longitudes[airports[i]] <<  endl;
-    }
+    //Prints airports (using its four-digit code)
+    // for (int i = 0; i < (int) airportCode.size(); i++) {
+    //     cout << "Airport: " << airportCode[i] <<  endl;
+    //     // cout << "Latitude: " << latitudes[airports[i]] <<  endl;
+    //     // cout << "Longitude: " << longitudes[airports[i]] <<  endl;
+    // }
+
+    //Prints airports (using its four-digit code and numerical value)
+    // for (int i = 0; i < (int) airportMap.size(); i++) {
+    //     cout << "Airport: " << airportCode[i] << " ";
+    //     cout << "Airport Num: " << airportMap[airportCode[i]] <<  endl;
+    // }
     // cout << "Size: " << airports.size() << endl;
 }
 
@@ -88,6 +100,7 @@ void Project::createAdjacencyList() {
     }
     for (int i = 0; i < (int) from.size(); i++) {
         if (adjacencyLists.find(from[i]) != adjacencyLists.end() && adjacencyLists.find(to[i]) != adjacencyLists.end()) {
+            adjacencyLists[from[i]].push_back(to[i]); //routes are directional
             bool found = false;
             vector<int> temp2=adjacencyLists[from[i]];
             for(size_t j=0;j<temp2.size();j++){
@@ -106,12 +119,12 @@ void Project::createAdjacencyList() {
     // }
 }
 //DFS for the graph components
-bool Project::DFS(int v, int w) {
+bool Project::AirportConnection(string source, string destination) {
     for (auto x = adjacencyLists.begin(); x != adjacencyLists.end(); ++x)  {
         verticesLabel[x->first] = false; 
 
     }
-    return DFSHelper(v, w);
+    return DFSHelper(airportMap[source], airportMap[destination]);
 }
 bool Project::DFSHelper(int v, int w) {
     if (w == v) {
@@ -178,9 +191,9 @@ void Project::printMap() {
     
     for (auto x = adjacencyLists.begin(); x != adjacencyLists.end() && cap < 100; ++x) {
         // x shoudl be a pair of int and vector
-        cout << x->first << " Neighhbors: ";
+        cout << airportCode[(x->first) - 1] << " Neighhbors: ";
         for (unsigned i = 0; i < x->second.size() && i < 100;++i) {
-            cout << x->second[i] << " ";
+            cout << airportCode[x->second[i]] << " ";
         }
         cout << endl;
         cap++;
@@ -310,17 +323,22 @@ map<int, double> Project::dijkstras(map<int, vector<int>> graph, int source) {
     return dist;
 }
 
-double Project::shortestPath(int from, int to) {
-    map<int, double> shortest_paths = dijkstras(adjacencyLists, from);
-    for (auto it = adjacencyListDijkstras.begin(); it != adjacencyListDijkstras.end(); it++) {
-        cout << endl << it->first << "  : ";
-        for (int i = 0; i < (int) it->second.size(); i++) {
-            cout << it->second[i] << ", ";
-        }
-        cout << endl;
+double Project::shortestPath(string from, string to) {
+    if (!AirportConnection(from, to)) {                       // Checks if two nodes have a path, true = nodes have path -- false = nodes have NO connection
+        return 0;
     }
+    map<int, double> shortest_paths = dijkstras(adjacencyLists, airportMap[from]);
+
+    //Print aiports and adjacent airports (using the shortest path)
+    // for (auto it = adjacencyListDijkstras.begin(); it != adjacencyListDijkstras.end(); it++) {
+    //     cout << endl << it->first << "  : ";
+    //     for (int i = 0; i < (int) it->second.size(); i++) {
+    //         cout << it->second[i] << ", ";
+    //     }
+    //     cout << endl;
+    // }
     // adjacencyListDijkstras.clear();
-    return shortest_paths[to];
+    return shortest_paths[airportMap[to]];
 }
 
 void Project::printCoord(){

@@ -6,6 +6,16 @@ normalize=true;
 ranksep=3;
 ratio=auto;
 height=0.1;
+<<<<<<< HEAD
+1->5[arrowhead=halfopen]
+2->6[arrowhead=halfopen]
+3->7[arrowhead=halfopen]
+4->8[arrowhead=halfopen]
+9->1[arrowhead=halfopen]
+9->2[arrowhead=halfopen]
+9->3[arrowhead=halfopen]
+9->4[arrowhead=halfopen]
+=======
 1[pos="-6,4!"]
 1->2[arrowhead=halfopen]
 1[pos="-6,4!"]
@@ -18,4 +28,5 @@ height=0.1;
 3->4[arrowhead=halfopen]
 6[pos="-3,4!"]
 6->4[arrowhead=halfopen]
+>>>>>>> origin
 }

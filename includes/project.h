@@ -46,8 +46,8 @@ class Project {
 
         /**
          * Data Parser
-         * Reads from the airports.dat file and fills the airports and airportCode vectors and
-         * the latitudes and longitudes maps for each airport
+         * Reads from the airports.dat file and fills the airports, airportCode vectors, 
+         * the latitudes map, longitudes map, and airportMap map for each airport
          * 
          * @param path The path of the airports.dat file
          */
@@ -76,8 +76,15 @@ class Project {
 
         void savePNG(string title) const;
 
-
-        bool DFS(int v, int w);
+        /**
+         * Traverses the adjacency list using Depth First Search 
+         * Searches for another airport in the starting aiports traversal
+         * 
+         * @param source the starting airport (or source) passed as a string
+         * @param destinaion the destination airport passed as a string
+         * @return a bool to indicate whether a path (or connection) exist between two airports
+         */
+        bool AirportConnection(string source, string destination);
 
         /**
          * Finds the airport node with the minimum edge weight out of all the nodes that have been reached through the sptSet.
@@ -110,7 +117,7 @@ class Project {
          * @param to The destination airport ID
          * @return The value of the shortest path between the source and destination airports
          */
-        double shortestPath(int from, int to);
+        double shortestPath(string from, string to);
 
         // Helpers and Getters
 
@@ -127,13 +134,6 @@ class Project {
          * @return The to vector of airports IDs
          */
         vector<int> getTo() const {return to;}
-
-        /**
-         * Returns the airports vector of airports IDs based on airports.dat
-         * 
-         * @return The airports vector storing airports IDs
-         */
-        vector<int> getAirports() const {return airports;}
 
         /**
          * Returns the airportCode vector of airports IDs based on airports.dat
@@ -182,6 +182,8 @@ class Project {
 
 
         void printCoord();
+
+        void airportToCode();
     private:
         vector<int> from;
         vector<int> to;
@@ -189,6 +191,7 @@ class Project {
         map<int, double> longitudes;
         vector<int> airports;
         vector<string> airportCode;
+        map<string, int> airportMap;
         map<int, vector<int> > adjacencyLists;
         map<int, vector<int> > adjacencyListDijkstras;
         map<int, bool> verticesLabel;
