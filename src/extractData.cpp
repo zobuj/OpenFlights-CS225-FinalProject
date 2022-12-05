@@ -176,7 +176,7 @@ void Project::printMap() {
     
     for (auto x = adjacencyLists.begin(); x != adjacencyLists.end() && cap < 100; ++x) {
         // x shoudl be a pair of int and vector
-        cout << x->first << " Neighhbors: ";
+        cout << x->first << " Neighbors: ";
         for (unsigned i = 0; i < x->second.size() && i < 100;++i) {
             cout << x->second[i] << " ";
         }
@@ -192,47 +192,44 @@ void Project::savePNG(string title) const
     string filename = title + ".dot";
     neatoFile.open(filename.c_str());
     neatoFile<<"digraph {\n";
-    neatoFile<<"layout=twopi;\n"
-                <<"overlap=false;\n"
-                <<"fontsize=6;\n"
-                <<"normalize=true;\n"
-                <<"ranksep=3;\n"
-                <<"ratio=auto;\n"
-                <<"height=0.1;\n";
-    //neatoFile<<"node [shape = circle];\n";
-    int localcount=0;
-    int maxcount=0;
-    int maxNode=0;
+    neatoFile<<"layout=neato;\n";
+     int localcount=0;
+     int maxcount=0;
+     int maxNode=0;
+    
     for (auto x = adjacencyLists.begin(); x != adjacencyLists.end(); ++x) {
-        // x shoudl be a pair of int and vector
-        localcount=0;
-        //cout<<"current node: "<<(*x).first<<endl;
         int x_first =(*x).first;
-        neatoFile<< (x->first)<<"[pos=\""<<latitudes.at(x_first)<<","<<longitudes.at(x_first)<<"!\"]\n";
-        for (unsigned i = 0; i < x->second.size();++i) {
-            
-            
-            neatoFile << (x->first)<<"->";
-            neatoFile << x->second[i] << "[arrowhead=halfopen]\n";
-            localcount++;
-        }
-        if(localcount>maxcount){
-            maxcount=localcount;
-            maxNode=x->first;
-        }
-        /*if(x->second.size()==0){//prints islands
-            neatoFile<<(x->first)<<"\n";
-        }*/
-        //neatoFile<<"\n";
+        neatoFile<< (x->first)<<" [pos=\""<<longitudes.at(x_first)<<","<<latitudes.at(x_first)<<"!\"]\n";
     }
-    cout<<maxNode<<endl;
-    //neatoFile<<"root="<<maxNode;
+     for (auto x = adjacencyLists.begin(); x != adjacencyLists.end(); ++x) {
+         // x shoudl be a pair of int and vector
+         localcount=0;
+         //cout<<"current node: "<<(*x).first<<endl;
+  
+         for (unsigned i = 0; i < x->second.size();++i) {
+      
+             neatoFile << (x->first)<<"->";
+             neatoFile << x->second[i]<<"\n";
+             localcount++;
+         }
+         if(localcount>maxcount){
+             maxcount=localcount;
+             maxNode=x->first;
+         }
+         /*if(x->second.size()==0){//prints islands
+             neatoFile<<(x->first)<<"\n";
+         }*/
+         //neatoFile<<"\n";
+     }
+     //cout<<maxNode<<endl;
+     cout<<"Loading PNG..."<<endl;
+    neatoFile<<"root="<<maxNode;
     neatoFile<<"}";
 
 
 
     neatoFile.close();
-    string command = "circo -Tpng "+ title +".dot -o test.png";
+    string command = "neato -Tpng "+ title +".dot -o test.png";
     int result = system(command.c_str());
 
 
