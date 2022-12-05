@@ -54,6 +54,9 @@ void TestD();
 * The Dijkstras file and the Simple file are identifiable by those keywords
 * 
 */
+
+void SimplePathExist();
+
 string getSimpleRoutesPath() {return "../OpenFlights-CS225-FinalProject/data/sample/sampleroutes.dat";}
 
 string getSimpleAirportsPath() {return  "../OpenFlights-CS225-FinalProject/data/sample/sampleairports.dat";}
