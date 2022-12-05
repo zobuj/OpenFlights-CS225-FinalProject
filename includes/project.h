@@ -73,7 +73,11 @@ class Project {
          */
         void createEdgeWeights();
 
-
+        /**
+         * Saves the directed graph output in a png file
+         * 
+         * @param title Name of the file you want to write the graph to
+         */
         void savePNG(string title) const;
 
         /**

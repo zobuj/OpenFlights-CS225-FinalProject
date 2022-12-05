@@ -7,6 +7,7 @@ void ReadRoutesSimple();
 void ReadAirportsSimple();
 void TestsAdjacencyLists();
 void testSimpleGraphOutput();
+void TestD();
 
 string getSimpleRoutesPath() {return "../OpenFlights-CS225-FinalProject/data/sample/sampleroutes.dat";}
 string getSimpleAirportsPath() {return  "../OpenFlights-CS225-FinalProject/data/sample/sampleairports.dat";}

@@ -117,7 +117,7 @@ void TestD(){
         double shortest_distance = init.shortestPath(to_airportIDs[i], target);
         assert(abs(shortest_distance - solutions[i]) < 0.1);
     } 
-    cout << "Dijkstras on Simple Paths: ALL TEST CASES PASSED" << endl;
+    cout << "Dijkstras on Simple Paths: ALL ASSERTIONS PASSED" << endl;
 }
 int main() {
     ReadRoutesSimple();
