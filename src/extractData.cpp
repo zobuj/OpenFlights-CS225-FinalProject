@@ -193,6 +193,7 @@ void Project::savePNG(string title) const
     neatoFile.open(filename.c_str());
     neatoFile<<"digraph {\n";
     neatoFile<<"layout=neato;\n";
+    neatoFile<<"scale=0.5;\n";
      int localcount=0;
      int maxcount=0;
      int maxNode=0;
