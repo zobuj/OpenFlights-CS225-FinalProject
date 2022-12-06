@@ -174,16 +174,6 @@ class Project {
          */
         double calculateDistance(double latFrom, double longFrom, double latTo, double longTo);
 
-
-        void printConnected(int v,string title);
-
-
-        void printMap();
-
-
-        void printCoord();
-
-        void airportToCode();
     private:
         vector<int> from;
         vector<int> to;

@@ -33,6 +33,15 @@ void ReadAirportsSimple();
 */
 void TestsAdjacencyListsSimple();
 /**
+ * Test whether there is a connection between two nodes using Depth First Search
+ * This test case uses the simple routes data file to determine whether a path exist between two airports
+ * The airports' four-digit code is used as parameters in the function
+ * If two airports have no connection, the function returns 0 (false)
+ * If two airports have a connection, the function returns 1 (true)
+*/
+void SimplePathExist();
+
+/**
 * @TODO: Lorenzo or Alexis
 * 
 */
@@ -55,7 +64,6 @@ void TestD();
 * 
 */
 
-void SimplePathExist();
 
 string getSimpleRoutesPath() {return "../OpenFlights-CS225-FinalProject/data/sample/sampleroutes.dat";}
 
