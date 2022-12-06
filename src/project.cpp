@@ -51,7 +51,6 @@ void Project::readAirports(string path) {
     // replace with absolute path of your own
     airport_csv.open(path);
     if (airport_csv.is_open()) {
-        int currPort = 1;
         while (getline(airport_csv, record)) {
             int quotes = 0;
             int count = 0;
@@ -62,7 +61,7 @@ void Project::readAirports(string path) {
                     if (count == 0) airports.push_back(stoi(temp));
                     else if (count == 5) {
                         airportCode.push_back(temp.substr(1, temp.size() - 2));
-                        airportMap.insert(std::pair<string, int>(temp.substr(1, temp.size() - 2), currPort));
+                        airportMap.insert(std::pair<string, int>(temp.substr(1, temp.size() - 2), airports.back()));
                     }
                     else if (count == 6) latitudes.insert(std::pair<int, double>(airports.back(), stod(temp)));
                     else if (count == 7) longitudes.insert(std::pair<int, double>(airports.back(), stod(temp)));
@@ -72,7 +71,6 @@ void Project::readAirports(string path) {
                     temp += record[i];
                 }
             }
-            currPort++;
         }
         airport_csv.close();
     }
@@ -141,66 +139,6 @@ bool Project::DFSHelper(int v, int w) {
     return false;
 }
 
-void Project::printConnected(int v,string title) {
-    std::ofstream neatoFile;
-    string neatoFileStr="";
-    string filename = title + ".dot";
-    neatoFile.open(filename.c_str());
-    neatoFile<<"digraph {\n";
-    neatoFile<<"overlap=false;\n"
-                <<"fontsize=6;\n"
-                <<"normalize=true;\n"
-                <<"ranksep=3;\n"
-                <<"height=0.1;\n"
-                <<to_string(v)+"[color=\"red\"]\n";
-    for (auto x = adjacencyLists.begin(); x != adjacencyLists.end(); ++x)  {
-        verticesLabel[x->first] = false; 
-    
-    }
-    printConnectedHelper(v, neatoFileStr);
-    //neatoFileStr.erase(neatoFileStr.size()-2,2);
-    neatoFile<<neatoFileStr;
-    neatoFile<<"}";
-
-    neatoFile.close();
-    string command = "twopi -Tpng "+ title +".dot -o DFS.png";
-    int result = system(command.c_str());
-
-
-    if (result == 0) {
-        cout << "Output graph saved as " << title << ".png" << endl;
-    } else {
-        cout << "Failed to generate visual output graph using `neato`. Run `make install_graphviz` first to install dependencies." << endl;
-    }
-}
-void Project::printConnectedHelper(int v, string & neatoFile) {
-    verticesLabel[v] = true;
-    //std::cout << v<<" ";
-
-    for (auto x = adjacencyLists[v].begin(); x != adjacencyLists[v].end(); ++x)  {
-        neatoFile+=to_string(v) +"->";
-        if (!verticesLabel[*x]) {
-            neatoFile += to_string(*x) + "[arrowhead=halfopen]\n";
-            printConnectedHelper(*x, neatoFile);
-        }
-    }
-}
-
-void Project::printMap() {
-    int cap = 0;
-    
-    for (auto x = adjacencyLists.begin(); x != adjacencyLists.end() && cap < 100; ++x) {
-        // x shoudl be a pair of int and vector
-        cout << airportCode[(x->first) - 1] << " Neighhbors: ";
-        for (unsigned i = 0; i < x->second.size() && i < 100;++i) {
-            cout << airportCode[x->second[i]] << " ";
-        }
-        cout << endl;
-        cap++;
-    }
-    if (cap >= 100) cout << "limiting output, capped at 100 nodes" << endl;
-}
-
 void Project::savePNG(string title) const
 {
     std::ofstream neatoFile;
@@ -218,8 +156,6 @@ void Project::savePNG(string title) const
     int localcount=0;
     int maxcount=0;
     int maxNode=0;
-    neatoFile << "1[color=\"red\", style=\"filled\"]\n";
-    neatoFile << "6[color=\"red\", style=\"filled\"]\n";
     for (auto x = adjacencyListDijkstras.begin(); x != adjacencyListDijkstras.end(); ++x) {
         // x shoudl be a pair of int and vector
         localcount=0;
@@ -339,11 +275,4 @@ double Project::shortestPath(string from, string to) {
     // }
     // adjacencyListDijkstras.clear();
     return shortest_paths[airportMap[to]];
-}
-
-void Project::printCoord(){
-    for(int i =0;i<100;i++){
-        cout<<"Long: "<<longitudes[i]<<", Lat: "<<latitudes[i]<<endl;
-    }
-    
 }
