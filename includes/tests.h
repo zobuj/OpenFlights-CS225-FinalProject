@@ -1,4 +1,4 @@
-#include "../includes/extractData.h"
+#include "../includes/project.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -7,23 +7,8 @@ void ReadRoutesSimple();
 void ReadAirportsSimple();
 void TestsAdjacencyLists();
 void testSimpleGraphOutput();
-string getRoutesPath() {
-    // just change this to your path
-<<<<<<< HEAD
 
-    return "/workspaces/cs225/release-f22/release-f22/Final Project/OpenFlights-CS225-FinalProject/data/sample/sampleroutes.dat";
-}
-string getAirportsPath() {
-    // just change this to your path
-    return  "/workspaces/cs225/release-f22/release-f22/Final Project/OpenFlights-CS225-FinalProject/data/sample/sampleairports.dat";
-
-    
-}
-=======
-    return "/Users/aryanmalhotra/Desktop/cs225project/OpenFlights-CS225-FinalProject/data/sample/sampleroutes.dat";
-}
-string getAirportsPath() {
-    // just change this to your path
-    return  "/Users/aryanmalhotra/Desktop/cs225project/OpenFlights-CS225-FinalProject/data/sample/sampleairports.dat";
-}
->>>>>>> origin
+string getSimpleRoutesPath() {return "../OpenFlights-CS225-FinalProject/data/sample/sampleroutes.dat";}
+string getSimpleAirportsPath() {return  "../OpenFlights-CS225-FinalProject/data/sample/sampleairports.dat";}
+string getDijkstrasRoutesPath() {return "../OpenFlights-CS225-FinalProject/data/sample/sampleroutesdijkstras.dat";}
+string getDijkstrasAirportsPath() {return  "../OpenFlights-CS225-FinalProject/data/sample/sampleairportsdijkstras.dat";}
