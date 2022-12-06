@@ -3,40 +3,27 @@
 #include <fstream>
 #include <iostream>
 using namespace std;
-// change this to your own paths
+
 string getRoutesPath() {return "../OpenFlights-CS225-FinalProject/data/raw/routes.dat";}
-//string getRoutesPath() {return "../OpenFlights-CS225-FinalProject/data/sample/sampleroutes.dat";}
 
 
 string getAirportsPath() {return  "../OpenFlights-CS225-FinalProject/data/raw/airports.dat";}
-//string getAirportsPath() {return  "../OpenFlights-CS225-FinalProject/data/sample/sampleairports.dat";}
 
 int main() {
-
+    cout<<"Creating Entire Graph..."<<endl;
     Project init(getRoutesPath(),getAirportsPath());
+    string source;
+    string dest;
+    cout<<"Enter Source Airport 4 Letter Code: ";
+    cin>>source;
+    cout<<"Enter Destination Airport 4 Letter Code: ";
+    cin>>dest;
+    std::transform(source.begin(), source.end(),source.begin(), ::toupper);
+    std::transform(dest.begin(), dest.end(),dest.begin(), ::toupper);
+    cout << "Calculating Shortest Path..." << endl;
+    double shortestdist=init.shortestPath(source, dest);
+
+    cout << "Shortest path from "<<source<<" to "<<dest<<": "<<shortestdist<<endl;
     
-    // init.printMap();
-    // cout << "connection between Prof Evans Airport (9) and Zo_2 Airport (6): " + to_string(init.DFS("BGSF", "AYWK")) << endl;
-    // cout << "Shortest Path from Prof Evans Airport (9) to Zo_2 Airport (6): " << init.shortestPath("BGSF", "AYWK") << endl;
-    // init.printConnected(9,"DFS");
-
-    // init.printMap();
-    // cout << "connection between Keflavik International Airport (16) and Cambridge Bay Airport (32): " + to_string(init.AirportConnection("BIKF", "CYCB")) << endl;
-    cout << "Shortest Path from ORD to DEL: " << init.shortestPath("KORD", "VIDP") << endl;
-    init.savePNG("Path1");
-    //init.printConnected(9,"DFS");
-
-
-    //init.printCoord();
-    
-    //init.savePNG("test");
-    // should get output that matches DISCORD SCREENSHOT
-
-    
-    //std::cout << "connection between 7 and 3: " + to_string(init.DFS(7, 3)) << std::endl;
-    //cout << "Shortest Path from Aamir's Airport to Zo_2 Airport: " << init.shortestPath(1, 6) << endl;
-    //init.savePNG("test");
-    //cout << "Shortest Path from Aamir's Airport to Zo_2 Airport: " << init.shortestPath(1, 6) << endl;
-
     return 0;
 }

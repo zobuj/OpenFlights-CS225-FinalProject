@@ -73,13 +73,13 @@ class Project {
          */
         void createEdgeWeights();
 
-        /**
-         * Saves the directed graph output in a png file
-         * 
-         * @param title Name of the file you want to write the graph to
-         */
-        void savePNG(string title) const;
-
+        /*
+        * Iterates through the t
+        *
+        *
+        */
+        void printFullMap(string title) const;
+        
         /**
          * Traverses the adjacency list using Depth First Search 
          * Searches for another airport in the starting aiports traversal
@@ -178,6 +178,13 @@ class Project {
          */
         double calculateDistance(double latFrom, double longFrom, double latTo, double longTo);
 
+        /**
+         * Returns the airport code for a matching airport id
+         *
+         * @param id The Airport ID
+         * @return Airport Code
+         */
+        string getCode(const int id)const;
     private:
         vector<int> from;
         vector<int> to;
@@ -191,5 +198,6 @@ class Project {
         map<int, bool> verticesLabel;
         map<vector<int>, double> edgesLabel;
         bool DFSHelper(int v, int w);
-        void printConnectedHelper(int v, string & neatoFile);
+        void printShortestPathMap(string title,string source,string destinaion)const;
+        
 };

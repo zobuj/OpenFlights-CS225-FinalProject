@@ -5,15 +5,15 @@ Project::Project(string routes_path, string airports_path){
     readRoutes(routes_path);
     createAdjacencyList();
     createEdgeWeights();
+    printFullMap("graph");
+
 }
 void Project::readRoutes(string path) {
     string line;
     ifstream ifs;
-    //Make it your own absolute path. We'll find a fix later
-    // ifs.open("/Users/aryanmalhotra/Desktop/cs225project/OpenFlights-CS225-FinalProject/src/firstRoutes.dat");
     ifs.open(path);
     if (ifs.is_open()) {
-        // cout << "ifs is open"<<endl;
+
         int t = 0;
         while(getline(ifs,line)) {
             //Filter data
@@ -37,7 +37,7 @@ void Project::readRoutes(string path) {
                     temp += line[i];
                 }
             }
-            // cout << "Err: " << t <<endl;
+
         }
         ifs.close();
     } else {
@@ -48,9 +48,10 @@ void Project::readRoutes(string path) {
 void Project::readAirports(string path) {
     string record;
     ifstream airport_csv;
-    // replace with absolute path of your own
+
     airport_csv.open(path);
     if (airport_csv.is_open()) {
+        
         while (getline(airport_csv, record)) {
             int quotes = 0;
             int count = 0;
@@ -71,22 +72,11 @@ void Project::readAirports(string path) {
                     temp += record[i];
                 }
             }
+            
         }
         airport_csv.close();
     }
-    //Prints airports (using its four-digit code)
-    // for (int i = 0; i < (int) airportCode.size(); i++) {
-    //     cout << "Airport: " << airportCode[i] <<  endl;
-    //     // cout << "Latitude: " << latitudes[airports[i]] <<  endl;
-    //     // cout << "Longitude: " << longitudes[airports[i]] <<  endl;
-    // }
 
-    //Prints airports (using its four-digit code and numerical value)
-    // for (int i = 0; i < (int) airportMap.size(); i++) {
-    //     cout << "Airport: " << airportCode[i] << " ";
-    //     cout << "Airport Num: " << airportMap[airportCode[i]] <<  endl;
-    // }
-    // cout << "Size: " << airports.size() << endl;
 }
 
 void Project::createAdjacencyList() {
@@ -98,7 +88,6 @@ void Project::createAdjacencyList() {
     }
     for (int i = 0; i < (int) from.size(); i++) {
         if (adjacencyLists.find(from[i]) != adjacencyLists.end() && adjacencyLists.find(to[i]) != adjacencyLists.end()) {
-            adjacencyLists[from[i]].push_back(to[i]); //routes are directional
             bool found = false;
             vector<int> temp2=adjacencyLists[from[i]];
             for(size_t j=0;j<temp2.size();j++){
@@ -112,9 +101,7 @@ void Project::createAdjacencyList() {
             }
         }
     }
-    // for (int i = 0; i < (int) adjacencyLists[1].size(); i++) {
-    //     cout << adjacencyLists[1][i] << "   ";
-    // }
+
 }
 //DFS for the graph components
 bool Project::AirportConnection(string source, string destination) {
@@ -139,55 +126,44 @@ bool Project::DFSHelper(int v, int w) {
     return false;
 }
 
-void Project::savePNG(string title) const
+
+
+
+
+void Project::printFullMap(string title) const
 {
     std::ofstream neatoFile;
     string filename = title + ".dot";
     neatoFile.open(filename.c_str());
     neatoFile<<"digraph {\n";
-    neatoFile<<"layout=neato;\n"
-                <<"overlap=false;\n"
-                <<"fontsize=6;\n"
-                <<"normalize=true;\n"
-                <<"ranksep=3;\n"
-                <<"ratio=auto;\n"
-                <<"height=0.1;\n";
-    //neatoFile<<"node [shape = circle];\n";
-    int localcount=0;
-    int maxcount=0;
-    int maxNode=0;
-    for (auto x = adjacencyListDijkstras.begin(); x != adjacencyListDijkstras.end(); ++x) {
-        // x shoudl be a pair of int and vector
-        localcount=0;
-        //cout<<"current node: "<<(*x).first<<endl;
+    neatoFile<<"layout=neato;\n";
+    neatoFile<<"scale=0.5;\n";
+    
+    for (auto x = adjacencyLists.begin(); x != adjacencyLists.end(); ++x) {
+        int x_first = (*x).first;
+        neatoFile<< "\""<<getCode(x_first)<<"\" [pos=\""<<longitudes.at(x_first)<<","<<latitudes.at(x_first)<<"!\"]\n";
+    }
+    for (auto x = adjacencyLists.begin(); x != adjacencyLists.end(); ++x) {
         for (unsigned i = 0; i < x->second.size();++i) {
-            
-        // int x_first =(*x).first;
-        // neatoFile<< (x->first);//<<"[pos=\""<<latitudes.at(x_first)<<","<<longitudes.at(x_first)<<"!\"]\n";
-            
-            neatoFile << (x->first)<<"->";
-            neatoFile << x->second[i] << "[arrowhead=halfopen]\n";
-            localcount++;
+            int x_first =(*x).first;
+            int x_second =(*x).second[i];
+            vector<int>v;
+            v.push_back(x_first);
+            v.push_back(x_second);
+            neatoFile << "\""<<getCode(x_first)<<"\"->";
+            neatoFile << "\""<<getCode(x_second)<<"\"\n";
         }
-        if(localcount>maxcount){
-            maxcount=localcount;
-            maxNode=x->first;
-        }
+
         /*if(x->second.size()==0){//prints islands
             neatoFile<<(x->first)<<"\n";
         }*/
-        //neatoFile<<"\n";
+        
     }
-    cout<<maxNode<<endl;
-    //neatoFile<<"root="<<maxNode;
     neatoFile<<"}";
 
-
-
     neatoFile.close();
-    string command = "circo -Tpng "+ title +".dot -o test.png";
+    string command = "neato -Tpng "+ title +".dot -o graph.png";
     int result = system(command.c_str());
-
 
     if (result == 0) {
         cout << "Output graph saved as " << title << ".png" << endl;
@@ -212,11 +188,9 @@ void Project::createEdgeWeights() {
             }
         }
     }
-    // for (auto it = edgesLabel.begin(); it != edgesLabel.end(); it++) {
-    //     cout << "From: " << it->first[0] << "   To :" << it->first[1] << "    Weight: " << it->second << endl;
-    // }
 
 }
+
 
 int Project::minDistance(map<int, double> dist, map<int, bool> sptSet) {
     int min = INT_MAX;
@@ -260,19 +234,68 @@ map<int, double> Project::dijkstras(map<int, vector<int>> graph, int source) {
 }
 
 double Project::shortestPath(string from, string to) {
-    if (!AirportConnection(from, to)) {                       // Checks if two nodes have a path, true = nodes have path -- false = nodes have NO connection
-        return 0;
-    }
+     if (!AirportConnection(from, to)) {                       // Checks if two nodes have a path, true = nodes have path -- false = nodes have NO connection
+         return 0;
+     }
     map<int, double> shortest_paths = dijkstras(adjacencyLists, airportMap[from]);
+    printShortestPathMap("shortest",from,to);
 
-    //Print aiports and adjacent airports (using the shortest path)
-    // for (auto it = adjacencyListDijkstras.begin(); it != adjacencyListDijkstras.end(); it++) {
-    //     cout << endl << it->first << "  : ";
-    //     for (int i = 0; i < (int) it->second.size(); i++) {
-    //         cout << it->second[i] << ", ";
-    //     }
-    //     cout << endl;
-    // }
-    // adjacencyListDijkstras.clear();
+    adjacencyListDijkstras.clear();
     return shortest_paths[airportMap[to]];
 }
+    
+
+ void Project::printShortestPathMap(string title,string source,string destinaion)const{  
+    std::ofstream neatoFile;
+    string filename = title + ".dot";
+    neatoFile.open(filename.c_str());
+    neatoFile<<"digraph {\n";
+    neatoFile<<"layout=neato;\n";
+    neatoFile<<"scale=0.5;\n";
+
+    neatoFile<<"\""<<source<<"\" [color=\"red\",style=\"filled\"]\n";
+    neatoFile<<"\""<<destinaion<<"\" [color=\"red\",style=\"filled\"]\n";
+    for (auto x = adjacencyListDijkstras.begin(); x != adjacencyListDijkstras.end(); ++x) {
+        int x_first = (*x).first;
+        neatoFile<< "\""<<getCode(x_first)<<"\" [pos=\""<<longitudes.at(x_first)<<","<<latitudes.at(x_first)<<"!\"]\n";
+    }
+
+    for (auto x = adjacencyListDijkstras.begin(); x != adjacencyListDijkstras.end(); ++x) {
+        for (unsigned i = 0; i < x->second.size();++i) {
+            int x_first =(*x).first;
+            int x_second =(*x).second[i];
+            vector<int>v;
+            v.push_back(x_first);
+            v.push_back(x_second);
+            neatoFile << "\""<<getCode(x_first)<<"\"->";
+            neatoFile << "\""<<getCode(x_second)<<"\" [label=\""<<to_string(edgesLabel.at(v))<<"\"]\n";
+        }
+        /*if(x->second.size()==0){//prints islands
+            neatoFile<<(x->first)<<"\n";
+        }*/
+    }
+    
+    neatoFile<<"}";
+
+
+
+    neatoFile.close();
+    string command = "neato -Tpng "+ title +".dot -o shortest.png";
+    int result = system(command.c_str());
+
+
+    if (result == 0) {
+        cout << "Output spanning tree for "<< source <<" saved as " << title << ".png" << endl;
+    } else {
+        cout << "Failed to generate visual output graph using `neato`. Run `make install_graphviz` first to install dependencies." << endl;
+    }
+ }
+
+ string Project::getCode(const int id)const{
+    for(size_t i=0;i<airports.size();i++){
+        if(airports[i]==id){
+            return airportCode[i];
+        }
+    }
+    return " ";
+ }
