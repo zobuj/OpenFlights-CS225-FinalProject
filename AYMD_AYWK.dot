@@ -1,0 +1,17 @@
+digraph {
+layout=neato;
+scale=0.5;
+"AYMD" [color="red",style="filled"]
+"AYWK" [color="red",style="filled"]
+"AYMD" [pos="10,-5!"]
+"AYMH" [pos="14,-5!"]
+"AYNZ" [pos="6,-6!"]
+"AYPY" [pos="7,-9!"]
+"AYWK" [pos="4,-3!"]
+"AYMD"->"AYMH" [label="4.000000"]
+"AYMD"->"AYPY" [label="5.000000"]
+"AYMD"->"AYWK" [label="6.324555"]
+"AYMH"->"AYGA" [label="10.049876"]
+"AYMH"->"AYNZ" [label="8.062258"]
+"AYWK"->"AYNZ" [label="3.605551"]
+}

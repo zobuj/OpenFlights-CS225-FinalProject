@@ -242,7 +242,7 @@ double Project::shortestPath(string from, string to) {
          return 0;
      }
     map<int, double> shortest_paths = dijkstras(adjacencyLists, airportMap[from]);
-    printShortestPathMap("shortest",from,to);
+    printShortestPathMap(from + "_" + to,from,to);
 
     adjacencyListDijkstras.clear();
     return shortest_paths[airportMap[to]];
