@@ -1,11 +1,11 @@
 #include "../includes/project.h"
 
-Project::Project(string routes_path, string airports_path){
+Project::Project(string routes_path, string airports_path,string title){
     readAirports(airports_path);
     readRoutes(routes_path);
     createAdjacencyList();
     createEdgeWeights();
-    printFullMap("graph");
+    printFullMap(title);
 
 }
 void Project::readRoutes(string path) {
@@ -105,6 +105,9 @@ void Project::createAdjacencyList() {
 }
 //DFS for the graph components
 bool Project::AirportConnection(string source, string destination) {
+    if(latitudes.find(airportMap[source])==latitudes.end() ||latitudes.find(airportMap[destination])==latitudes.end()){
+        return false;
+    }
     for (auto x = adjacencyLists.begin(); x != adjacencyLists.end(); ++x)  {
         verticesLabel[x->first] = false; 
 
@@ -162,7 +165,7 @@ void Project::printFullMap(string title) const
     neatoFile<<"}";
 
     neatoFile.close();
-    string command = "neato -Tpng "+ title +".dot -o graph.png";
+    string command = "neato -Tpng "+ title +".dot -o "+title+".png";
     int result = system(command.c_str());
 
     if (result == 0) {
@@ -234,7 +237,8 @@ map<int, double> Project::dijkstras(map<int, vector<int>> graph, int source) {
 }
 
 double Project::shortestPath(string from, string to) {
-     if (!AirportConnection(from, to)) {                       // Checks if two nodes have a path, true = nodes have path -- false = nodes have NO connection
+     if (!AirportConnection(from, to)) {                      // Checks if two nodes have a path, true = nodes have path -- false = nodes have NO connection
+         cout<<"No Path Exists from "<<from<<" to "<<to<<endl;
          return 0;
      }
     map<int, double> shortest_paths = dijkstras(adjacencyLists, airportMap[from]);
@@ -280,7 +284,7 @@ double Project::shortestPath(string from, string to) {
 
 
     neatoFile.close();
-    string command = "neato -Tpng "+ title +".dot -o shortest.png";
+    string command = "neato -Tpng "+ title +".dot -o "+title+".png";
     int result = system(command.c_str());
 
 

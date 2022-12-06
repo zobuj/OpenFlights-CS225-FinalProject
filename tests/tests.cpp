@@ -2,7 +2,7 @@
 
 
 void ReadRoutesSimple() {
-    Project init(getSimpleRoutesPath(),getSimpleAirportsPath());
+    Project init(getSimpleRoutesPath(),getSimpleAirportsPath(),"testsimple");
     vector<int> from_expected = {9,9,9,9,1,2,4,3};
     vector<int> from_actual = init.getFrom();
     vector<int> to_expected =   {1,2,3,4,5,6,8,7};
@@ -17,7 +17,7 @@ void ReadRoutesSimple() {
     cout << "Read Routes Simple: ALL ASSERTIONS PASSED" << endl;
 }
 void ReadAirportsSimple() {
-    Project init(getSimpleRoutesPath(),getSimpleAirportsPath());
+    Project init(getSimpleRoutesPath(),getSimpleAirportsPath(),"testsimple");
     vector<int> airports_expected = {1,2,3,4,5,6,7,8,9};
     vector<int> airports_actual = init.getAirports();
     assert(airports_expected.size() == airports_actual.size());
@@ -25,7 +25,7 @@ void ReadAirportsSimple() {
         assert(airports_expected[i] == airports_actual[i]);
     }
 
-    vector<double> latitudes_expected = {-1, 0, 1, -1, 0, 1, -1, 0, 1};
+    vector<double> latitudes_expected = {-10, 0, 10, -10, 0, 10, -10, 0, 10};
     map<int, double> latitudes_actual = init.getLatitudes();
     assert(latitudes_expected.size() == latitudes_actual.size());
     for (int i = 0 ; i < (int) latitudes_expected.size(); i++) {
@@ -34,7 +34,7 @@ void ReadAirportsSimple() {
         assert(((int) latitudes_expected[i]) == ((int) latitudes_actual[airports_actual[i]]));
     }
 
-    vector<double> longitudes_expected = {2, 2, 2, 1, 1, 1, 0, 0, 0};
+    vector<double> longitudes_expected = {20, 20, 20, 10, 10, 10, 0, 0, 0};
     map<int, double> longitudes_actual = init.getLongitudes();
     assert(longitudes_expected.size() == longitudes_actual.size());
     for (int i = 0 ; i < (int) longitudes_expected.size(); i++) {
@@ -44,7 +44,7 @@ void ReadAirportsSimple() {
 }
 
 void SimplePathExist() {
-    Project init(getSimpleRoutesPath(),getSimpleAirportsPath());
+    Project init(getSimpleRoutesPath(),getSimpleAirportsPath(),"testsimple");
 
     assert(init.AirportConnection("BGSF", "AYNZ") == 1);
     assert(init.AirportConnection("AYNZ", "BGSF") == 0);
@@ -68,7 +68,7 @@ void SimplePathExist() {
 }
 void TestsAdjacencyListsSimple() {
     
-    Project init(getSimpleRoutesPath(),getSimpleAirportsPath());
+    Project init(getSimpleRoutesPath(),getSimpleAirportsPath(),"testsimple");
     
     map<int, vector<int>> map_actual = init.getGraph();
     vector<int> adj_keys_expected = {1,2,3,4,5,6,7,8,9};
@@ -101,17 +101,17 @@ void TestsAdjacencyListsSimple() {
 }
 
 void testSimpleGraphOutput() {
-    Project init(getSimpleRoutesPath(),getSimpleAirportsPath());
-    init.savePNG("suite");
-    int val =system("diff suite.dot sample.dot");
+    Project init(getSimpleRoutesPath(),getSimpleAirportsPath(),"testsimple");
+    init.printFullMap("testsimple");
+    int val =system("diff testsimple.dot suite.dot");
     assert(val==0);
-    cout<<"Testing Graph-Passed All Simple Graph Assertions" <<endl;
+    cout<<"Testing Graph: ALL ASSERTIONS PASSED" << endl;
 }
 void TestD(){
-    Project init(getDijkstrasRoutesPath(),getDijkstrasAirportsPath());
-    vector<double> solutions = {12.4,6.3,11.6,3.6,6.7,0.0};
+    Project init(getDijkstrasRoutesPath(),getDijkstrasAirportsPath(),"testsimple");
+    vector<double> solutions = {12.4,6.3,11.6,3.6,6.7};
     // Note: Due to possible rounding errors, we will round all our values down to the nearest tenth and check if the rounded distance matches
-    vector<string> to_airportIDs = {"AYGA","AYMD","AYMH","AYNZ","AYPY","AYWK"}; //Every airport in our dataset
+    vector<string> to_airportIDs = {"AYGA","AYMD","AYMH","AYNZ","AYPY"}; //Every airport in our dataset
     string target = "AYWK"; //Our target airport has ID 6, 'Zo_2'
     for (unsigned i = 0; i < to_airportIDs.size(); ++i) {
         double shortest_distance = init.shortestPath(to_airportIDs[i], target);
@@ -123,6 +123,7 @@ int main() {
     ReadRoutesSimple();
     ReadAirportsSimple();
     SimplePathExist();
+    testSimpleGraphOutput();
     TestsAdjacencyListsSimple();
     TestD();
     // for aamir this won't work bc of graphviz package installment issues
