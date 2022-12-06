@@ -22,10 +22,8 @@ int main() {
 
     // init.printMap();
     // cout << "connection between Keflavik International Airport (16) and Cambridge Bay Airport (32): " + to_string(init.AirportConnection("BIKF", "CYCB")) << endl;
-    // cout << "Shortest Path from Keflavik International Airport (16) to Cambridge Bay Airport (32): " << init.shortestPath("BIKF", "CYCB") << endl;
-    // init.savePNG("Path1");
-
-    cout << "connection between airports: " + to_string(init.AirportConnection("FZRQ", "FZRF")) << endl;
+    cout << "Shortest Path from ORD to DEL: " << init.shortestPath("KORD", "VIDP") << endl;
+    init.savePNG("Path1");
     //init.printConnected(9,"DFS");
 
 

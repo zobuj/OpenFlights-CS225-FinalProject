@@ -46,6 +46,7 @@ void SimplePathExist();
 * 
 */
 void testSimpleGraphOutput();
+void TestD();
 
 /**
 * 

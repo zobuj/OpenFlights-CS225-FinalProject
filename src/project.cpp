@@ -156,8 +156,6 @@ void Project::savePNG(string title) const
     int localcount=0;
     int maxcount=0;
     int maxNode=0;
-    neatoFile << "1[color=\"red\", style=\"filled\"]\n";
-    neatoFile << "6[color=\"red\", style=\"filled\"]\n";
     for (auto x = adjacencyListDijkstras.begin(); x != adjacencyListDijkstras.end(); ++x) {
         // x shoudl be a pair of int and vector
         localcount=0;

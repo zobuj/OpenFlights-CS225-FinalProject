@@ -10,7 +10,7 @@ Given a dataset of airports and their connection to other airports around the wo
 	
 The data set we are using is the “OpenFlights” data set from 	https://openflights.org/data.html
 
-Use DFS to traverse the graph to find the inputted airport. Call Dijsktra’s Algorithm on the found node to calculate the distance from the source location to its connected airports. 
+Use DFS to traverse the graph to check if a path exists between the input airports. Call Dijsktra’s Algorithm on the found node to calculate the distance from the source location to its connected airports. 
 
 
 ## Data Format 
