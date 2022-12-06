@@ -4,17 +4,12 @@
 #include <string>
 #include <map>
 #include <vector>
-
-
 #include <list>
 #include <unordered_map>
 #include <utility>
 #include <algorithm>
-
 #include <cstdlib>
 #include <climits>
-
-
 #include <iomanip>
 #include <set>
 #include <sstream>
@@ -33,8 +28,9 @@ class Project {
          * 
          * @param routes_path The path of the routes.dat file
          * @param airports_path The path of the airports.dat file
+         * @param title Name of the file graph is written to.
          */
-        Project(string routes_path, string airports_path);
+        Project(string routes_path, string airports_path,string title);
 
         /**
          * Data Parser
@@ -73,10 +69,11 @@ class Project {
          */
         void createEdgeWeights();
 
-        /*
-        * Iterates through the t
+        /**
+        * Prints the entire graph output that shows all airport nodes and connections between airports to a file.
+        * It uses latitudes and longitudes to place nodes, so it ends up giving the shape of continents on the world map.
         *
-        *
+        * @param title The name of the file to which the graph will be written
         */
         void printFullMap(string title) const;
         

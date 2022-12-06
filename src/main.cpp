@@ -11,7 +11,7 @@ string getAirportsPath() {return  "../OpenFlights-CS225-FinalProject/data/raw/ai
 
 int main() {
     cout<<"Creating Entire Graph..."<<endl;
-    Project init(getRoutesPath(),getAirportsPath());
+    Project init(getRoutesPath(),getAirportsPath(),"graph");
     string source;
     string dest;
     cout<<"Enter Source Airport 4 Letter Code: ";

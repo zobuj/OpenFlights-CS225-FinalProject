@@ -1,0 +1,21 @@
+digraph {
+layout=neato;
+scale=0.5;
+"AYGA" [pos="20,-10!"]
+"AYMD" [pos="20,0!"]
+"AYMH" [pos="20,10!"]
+"AYNZ" [pos="10,-10!"]
+"AYPY" [pos="10,0!"]
+"AYWK" [pos="10,10!"]
+"BGBW" [pos="0,-10!"]
+"BGGH" [pos="0,0!"]
+"BGSF" [pos="0,10!"]
+"AYGA"->"AYPY"
+"AYMD"->"AYWK"
+"AYMH"->"BGBW"
+"AYNZ"->"BGGH"
+"BGSF"->"AYGA"
+"BGSF"->"AYMD"
+"BGSF"->"AYMH"
+"BGSF"->"AYNZ"
+}
