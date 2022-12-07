@@ -6,7 +6,7 @@ Project::Project(string routes_path, string airports_path,string title){
     createAdjacencyList();
     createEdgeWeights();
     printFullMap(title);
-
+    
 }
 void Project::readRoutes(string path) {
     string line;
@@ -154,7 +154,7 @@ void Project::printFullMap(string title) const
             v.push_back(x_first);
             v.push_back(x_second);
             neatoFile << "\""<<getCode(x_first)<<"\"->";
-            neatoFile << "\""<<getCode(x_second)<<"\"\n";
+            neatoFile << "\""<<getCode(x_second)<<"\" [label=\""<<to_string(edgesLabel.at(v))<<"\"]\n";
         }
 
         /*if(x->second.size()==0){//prints islands
@@ -217,6 +217,7 @@ map<int, double> Project::dijkstras(map<int, vector<int>> graph, int source) {
         sptSet.insert(pair<int, bool> (airports[i], false));
     }
     dist[source] = 0;
+    map<int, vector<int>> track;
     for (int count = 0; count < (int) airports.size() - 1; count++) {
         int u = minDistance(dist, sptSet);
         if (adjacencyListDijkstras.find(u) == adjacencyListDijkstras.end()) {
@@ -229,6 +230,13 @@ map<int, double> Project::dijkstras(map<int, vector<int>> graph, int source) {
             vector<int> from_to = {u, v};
             if (!sptSet[v] && dist[u] != INT_MAX && dist[u] + edgesLabel[from_to] < dist[v]) {
                 adjacencyListDijkstras[u].push_back(v);
+                if (track.find(v) != track.end()) {
+                    std::vector<int>::iterator it = std::find (adjacencyListDijkstras[track[v].back()].begin(), adjacencyListDijkstras[track[v].back()].end(), v);
+                    adjacencyListDijkstras[track[v].back()].erase(it);
+                    track[v].push_back(u);
+                } else {
+                    track.insert(pair<int, vector<int>> (v, vector<int>({u})));
+                }
                 dist[v] = dist[u] + edgesLabel[from_to];
             }
         }
@@ -242,14 +250,18 @@ double Project::shortestPath(string from, string to) {
          return 0;
      }
     map<int, double> shortest_paths = dijkstras(adjacencyLists, airportMap[from]);
-    printShortestPathMap("shortest",from,to);
+    string t= from+"_"+to;
+    printMST(t,from,to);
+    cout << "Calculating Shortest Path from MST..."<<endl;
+    printSinglePath(t,from,to);
+
 
     adjacencyListDijkstras.clear();
     return shortest_paths[airportMap[to]];
 }
     
 
- void Project::printShortestPathMap(string title,string source,string destinaion)const{  
+ void Project::printMST(string title,string source,string destination)const{  
     std::ofstream neatoFile;
     string filename = title + ".dot";
     neatoFile.open(filename.c_str());
@@ -258,7 +270,7 @@ double Project::shortestPath(string from, string to) {
     neatoFile<<"scale=0.5;\n";
 
     neatoFile<<"\""<<source<<"\" [color=\"red\",style=\"filled\"]\n";
-    neatoFile<<"\""<<destinaion<<"\" [color=\"red\",style=\"filled\"]\n";
+    neatoFile<<"\""<<destination<<"\" [color=\"green\",style=\"filled\"]\n";
     for (auto x = adjacencyListDijkstras.begin(); x != adjacencyListDijkstras.end(); ++x) {
         int x_first = (*x).first;
         neatoFile<< "\""<<getCode(x_first)<<"\" [pos=\""<<longitudes.at(x_first)<<","<<latitudes.at(x_first)<<"!\"]\n";
@@ -303,3 +315,80 @@ double Project::shortestPath(string from, string to) {
     }
     return " ";
  }
+
+void Project::printSinglePath(string name,string source,string dest){
+     std::ofstream neatoFile;
+     string title=name+"_singlepath";
+     string filename =title+".dot";
+     neatoFile.open(filename.c_str());
+     neatoFile<<"digraph {\n";
+     neatoFile<<"layout=neato;\n";
+    
+    neatoFile<<"\""<<source<<"\" [color=\"red\",style=\"filled\"]\n";
+    neatoFile<<"\""<<dest<<"\" [color=\"green\",style=\"filled\"]\n";
+    vector<int> v=findPath(airportMap[source], airportMap[dest]);
+
+    for (auto x = adjacencyListDijkstras.begin(); x != adjacencyListDijkstras.end(); ++x) {
+        int x_first = (*x).first;
+        if(getCode(x_first)!=source && getCode(x_first)!=dest && std::find(v.begin(), v.end(), x_first) != v.end()){
+            neatoFile<< "\""<<getCode(x_first)<<"\" [color=\"yellow\",style=\"filled\" , pos=\""<<longitudes.at(x_first)<<","<<latitudes.at(x_first)<<"!\"]\n";
+        }
+        neatoFile<< "\""<<getCode(x_first)<<"\" [pos=\""<<longitudes.at(x_first)<<","<<latitudes.at(x_first)<<"!\"]\n";
+    }
+    for(size_t i=0;i<v.size();i++){
+        if(i+1<v.size()){
+            vector<int>vect;
+            vect.push_back(v[i]);
+            vect.push_back(v[i+1]);
+            neatoFile<<"\""<<getCode(v[i])<<"\"->"<<"\""<<getCode(v[i+1])<<"\" [penwidth=10, color=\"blue\""<<" , label=\""<<to_string(edgesLabel.at(vect))<<"\""<<"]\n";
+        }
+
+    }
+     neatoFile<<"}";
+     neatoFile.close();
+     string command = "neato -Tpng " + title+".dot -o "+ title +".png";
+     int result = system(command.c_str());
+
+
+     if (result == 0) {
+         cout << "Output saved as "+ title +".png" << endl;
+     } else {
+         cout << "Failed to generate visual output graph using `neato`. Run `make install_graphviz` first to install dependencies." << endl;
+     }
+}
+vector<int> Project::findPath(int source, int dest){
+    queue<int> q;
+    set<int>visited;
+    unordered_map<int,int> parent;
+    q.push(source);
+    while(!q.empty()){
+        int node=q.front();
+
+        q.pop();
+        if(node==dest){
+            vector<int>path;
+            int current=dest;
+            while(current!=source){
+                path.push_back(current);
+                
+                current=parent[current];
+                
+            }
+            path.push_back(source);
+            std::reverse(path.begin(),path.end());
+            return path;
+        }
+        visited.insert(node);
+        for(const auto & neighbor:adjacencyListDijkstras[node]){
+            if(visited.count(neighbor)==0){
+                q.push(neighbor);
+                
+                parent[neighbor]=node;
+                
+
+            }
+        }
+    }
+    return {};
+}
+
