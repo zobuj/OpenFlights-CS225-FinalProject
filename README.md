@@ -53,12 +53,12 @@ Users can not select an output location. All graphical .png images are saved in 
 
 # Commands to run code: 
 
-  cd ../OpenFlights-CS225-FinalProject
-  make - compiles the main.cpp and test.cpp files
-  make exec - compiles the main.cpp file
-  make tests - compiles the test.cpp
-  ./bin/exec - runs the main.cpp file 
-  ./bin/tests - runs the test.cpp file 
+	  cd ../OpenFlights-CS225-FinalProject
+	  make - compiles the main.cpp and test.cpp files
+	  make exec - compiles the main.cpp file
+	  make tests - compiles the test.cpp
+	  ./bin/exec - runs the main.cpp file 
+	  ./bin/tests - runs the test.cpp file 
 
 *To reproduce and run test cases, users should type “make tests” in the terminal followed by 
 
