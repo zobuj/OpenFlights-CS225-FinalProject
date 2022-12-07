@@ -107,25 +107,49 @@ void testSimpleGraphOutput() {
     assert(val==0);
     cout<<"Testing Graph: ALL ASSERTIONS PASSED" << endl;
 }
-void TestD(){
-    Project init(getDijkstrasRoutesPath(),getDijkstrasAirportsPath(),"testsimple");
+void TestShortestPath(){
+    Project init(getDijkstrasRoutesPath(),getDijkstrasAirportsPath(),"testdijkstras");
     vector<double> solutions = {12.4,6.3,11.6,3.6,6.7};
     // Note: Due to possible rounding errors, we will round all our values down to the nearest tenth and check if the rounded distance matches
     vector<string> to_airportIDs = {"AYGA","AYMD","AYMH","AYNZ","AYPY"}; //Every airport in our dataset
     string target = "AYWK"; //Our target airport has ID 6, 'Zo_2'
     for (unsigned i = 0; i < to_airportIDs.size(); ++i) {
         double shortest_distance = init.shortestPath(to_airportIDs[i], target);
+        
         assert(abs(shortest_distance - solutions[i]) < 0.1);
-    } 
+    }
     cout << "Dijkstras on Simple Paths: ALL ASSERTIONS PASSED" << endl;
+    int source = 5;
+    vector<int> destinations = {1,2,3};
+    vector<int> five_one_expect = {5,6,4,3,1};
+    vector<int> five_two_expect = {5,6,4,3,1,2};
+    vector<int> five_three_expect = {5,6,4,3};
+    vector<vector<int>> expected_vector = {
+        five_one_expect,
+        five_two_expect,
+        five_three_expect
+    };
+    for (int idx = 0; idx < (int) destinations.size(); ++idx) {
+        vector<int> s = init.findPath(source,destinations[idx]);
+
+        assert(s == expected_vector[idx]);
+    }
+    cout << "TESTING SHORTEST PATH: ALL ASSERTIONS PASSED" << endl;
+
 }
+
+
 int main() {
     ReadRoutesSimple();
     ReadAirportsSimple();
     SimplePathExist();
     testSimpleGraphOutput();
     TestsAdjacencyListsSimple();
-    TestD();
+    TestShortestPath();
+    cout << endl;
+    cout << endl;
+    cout << endl;
+    cout << "-----ALL TESTS PASSED-------" << endl;
     // for aamir this won't work bc of graphviz package installment issues
     
 }
