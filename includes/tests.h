@@ -46,7 +46,6 @@ void SimplePathExist();
 * 
 */
 void testSimpleGraphOutput();
-void TestD();
 
 /**
 * 
@@ -55,10 +54,10 @@ void TestD();
 * We are recieving doubles that represent the distance between the two nodes. We are matching the outputs with our hard coded values.
 * We have calculated these values by hand 
 * An explanation of the dijkstras function used in this test case can be found in the project.h file
-* 
+* After running tests to make sure the shortest distance is what we expect, we run tests using findpath to check the shortest path 
+* We have also calculated the expected paths by hand
 */
-void TestD();
-
+void TestShortestPath();
 /**
 * All the appropriate file paths for our program.
 * The Dijkstras file and the Simple file are identifiable by those keywords

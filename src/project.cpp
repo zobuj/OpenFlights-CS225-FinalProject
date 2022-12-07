@@ -3,6 +3,7 @@
 Project::Project(string routes_path, string airports_path,string title){
     readAirports(airports_path);
     readRoutes(routes_path);
+    cout<<"Creating Entire Graph..."<<endl;
     createAdjacencyList();
     createEdgeWeights();
     printFullMap(title);
@@ -254,9 +255,6 @@ double Project::shortestPath(string from, string to) {
     printMST(t,from,to);
     cout << "Calculating Shortest Path from MST..."<<endl;
     printSinglePath(t,from,to);
-
-
-    adjacencyListDijkstras.clear();
     return shortest_paths[airportMap[to]];
 }
     

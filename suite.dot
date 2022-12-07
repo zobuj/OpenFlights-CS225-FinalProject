@@ -10,12 +10,12 @@ scale=0.5;
 "BGBW" [pos="0,-10!"]
 "BGGH" [pos="0,0!"]
 "BGSF" [pos="0,10!"]
-"AYGA"->"AYPY"
-"AYMD"->"AYWK"
-"AYMH"->"BGBW"
-"AYNZ"->"BGGH"
-"BGSF"->"AYGA"
-"BGSF"->"AYMD"
-"BGSF"->"AYMH"
-"BGSF"->"AYNZ"
+"AYGA"->"AYPY" [label="14.142136"]
+"AYMD"->"AYWK" [label="14.142136"]
+"AYMH"->"BGBW" [label="28.284271"]
+"AYNZ"->"BGGH" [label="14.142136"]
+"BGSF"->"AYGA" [label="28.284271"]
+"BGSF"->"AYMD" [label="22.360680"]
+"BGSF"->"AYMH" [label="20.000000"]
+"BGSF"->"AYNZ" [label="22.360680"]
 }
