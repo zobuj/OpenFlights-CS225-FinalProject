@@ -104,6 +104,7 @@ void Project::createAdjacencyList() {
     }
 
 }
+
 //DFS for the graph components
 bool Project::AirportConnection(string source, string destination) {
     if(latitudes.find(airportMap[source])==latitudes.end() ||latitudes.find(airportMap[destination])==latitudes.end()){
@@ -157,8 +158,8 @@ void Project::printFullMap(string title) const
             neatoFile << "\""<<getCode(x_first)<<"\"->";
             neatoFile << "\""<<getCode(x_second)<<"\" [label=\""<<to_string(edgesLabel.at(v))<<"\"]\n";
         }
-
-        /*if(x->second.size()==0){//prints islands
+        //Uncomment the code below to print out the airports that have no connections:
+        /*if(x->second.size()==0){
             neatoFile<<(x->first)<<"\n";
         }*/
         
@@ -284,7 +285,9 @@ double Project::shortestPath(string from, string to) {
             neatoFile << "\""<<getCode(x_first)<<"\"->";
             neatoFile << "\""<<getCode(x_second)<<"\" [label=\""<<to_string(edgesLabel.at(v))<<"\"]\n";
         }
-        /*if(x->second.size()==0){//prints islands
+
+        //Uncomment the code below to print out the airports that have no connections:
+        /*if(x->second.size()==0){
             neatoFile<<(x->first)<<"\n";
         }*/
     }
@@ -354,6 +357,7 @@ void Project::printSinglePath(string name,string source,string dest){
          cout << "Failed to generate visual output graph using `neato`. Run `make install_graphviz` first to install dependencies." << endl;
      }
 }
+
 vector<int> Project::findPath(int source, int dest){
     queue<int> q;
     set<int>visited;

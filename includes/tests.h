@@ -42,8 +42,11 @@ void TestsAdjacencyListsSimple();
 void SimplePathExist();
 
 /**
-* @TODO: Lorenzo or Alexis
 * 
+* Tests whether the graphical visualization algorithm displays the right graph. 
+* We created a test suite.dot file that we hardcoded and then the test will run 
+* diff to find any differences from the function created .dot file. If there is 
+* no differences then 0 will be returned and the test passes.
 */
 void testSimpleGraphOutput();
 
