@@ -29,8 +29,6 @@ void ReadAirportsSimple() {
     map<int, double> latitudes_actual = init.getLatitudes();
     assert(latitudes_expected.size() == latitudes_actual.size());
     for (int i = 0 ; i < (int) latitudes_expected.size(); i++) {
-        // cout << "Expected: " << (int) latitudes_expected[i] << endl;
-        // cout << "Actual: " << (int) latitudes_actual[airports_actual[i]] << endl;
         assert(((int) latitudes_expected[i]) == ((int) latitudes_actual[airports_actual[i]]));
     }
 
@@ -90,7 +88,6 @@ void TestsAdjacencyListsSimple() {
         unsigned value_idx = 0;
         // check if the neighbors are the same
         for (int neighbor:x->second) {
-            // cout <<adj_l_expected[key_idx][value_idx] << " " << neighbor << endl; 
             assert(adj_l_expected[key_idx][value_idx] == neighbor);
             value_idx++;
         }
@@ -150,6 +147,4 @@ int main() {
     cout << endl;
     cout << endl;
     cout << "-----ALL TESTS PASSED-------" << endl;
-    // for aamir this won't work bc of graphviz package installment issues
-    
 }
