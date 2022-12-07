@@ -14,7 +14,7 @@
 #include <set>
 #include <sstream>
 #include <math.h>
-
+#include <queue>
 
 
 
@@ -182,6 +182,17 @@ class Project {
          * @return Airport Code
          */
         string getCode(const int id)const;
+
+        /**
+         * Uses BFS to iterate through the adjacency list of the MST and returns the
+         * shortest path.
+         * @param Source The ID for the source airport
+         * @param dest The ID for the destination airport
+         * @return Vector storing the shortest path from source to destination
+         */
+        vector<int> findPath(int source, int dest);
+        
+        
     private:
         vector<int> from;
         vector<int> to;
@@ -195,6 +206,8 @@ class Project {
         map<int, bool> verticesLabel;
         map<vector<int>, double> edgesLabel;
         bool DFSHelper(int v, int w);
-        void printShortestPathMap(string title,string source,string destinaion)const;
+        void printMST(string title,string source,string destinaion)const;
+        void printSinglePath(string name,string source,string dest);
+        
         
 };
