@@ -1,5 +1,78 @@
 # OpenFlights-CS225-FinalProject
 
+# Installation for sudo command in linux distribution:
+
+Ubuntu:
+
+	apt install sudo
+
+# Installation Instructions (for graphviz):
+
+Graphviz is a package used to create a .PNG file with a printed graph of all airports. You need to install graphviz to view the created images.
+
+MacOS:
+
+    Install Homebrew: https://brew.sh
+    Install graphviz: https://graphviz.org/download/
+
+Windows and Linux: 
+
+    Install graphviz: https://graphviz.org/download/
+
+# Program Organization: 
+
+  Data files: ../OpenFlights-CS225-FinalProject/data
+  
+    Sample Data: ../OpenFlights-CS225-FinalProject/data/sample
+    
+    Actual Data: ../OpenFlights-CS225-FinalProject/data/raw
+
+  Function Declarations: ../OpenFlights-CS225-FinalProject/data/includes
+  
+    Project functions:  ../OpenFlights-CS225-FinalProject/data/includes/project.h
+    
+    Test functions: ./OpenFlights-CS225-FinalProject/data/includes/test.h
+
+  Function Definitions: ../OpenFlights-CS225-FinalProject/data/src
+  
+    Project functions:  ../OpenFlights-CS225-FinalProject/data/includes/project.cpp
+    
+    Main function: ./OpenFlights-CS225-FinalProject/data/includes/main.cpp
+
+  Test Suites: ../OpenFlights-CS225-FinalProject/data/tests/tests.cpp
+
+# Changing Dataset of Airports:
+
+All datasets should be added to the data folder (“../OpenFlights-CS225-FinalProject/data”). In the main.cpp file, there are two functions getRoutesPath() (returns the relative path as a string of the routes data) and getAirportsPath() (returns the relative path as a string of the airports data). These functions should be changed with the relative path of the files the user wants to parse and use for the program. The return string for each function should be written as: 
+
+    ../OpenFlights-CS225-FinalProject/relative path 
+
+# Changing Output of Generated Images:
+
+Users can not select an output location. All graphical .png images are saved in the “../OpenFlights-CS225” root directory. The file should be found underneath the tests folder.
+
+# Commands to run code: 
+
+  cd ../OpenFlights-CS225-FinalProject
+  make - compiles the main.cpp and test.cpp files
+  make exec - compiles the main.cpp file
+  make tests - compiles the test.cpp
+  ./bin/exec - runs the main.cpp file 
+  ./bin/tests - runs the test.cpp file 
+
+*To reproduce and run test cases, users should type “make tests” in the terminal followed by 
+
+    ./bin/tests
+    
+to run tests.
+
+*To run the program, users should type “make exec” in the terminal followed by 
+    
+    ./bin/exec 
+
+to the program.
+
+
 # Team Contract
 
 ## Communication
