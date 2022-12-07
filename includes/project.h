@@ -69,7 +69,6 @@ class Project {
          */
         void createEdgeWeights();
 
-        /**
         * Prints the entire graph output that shows all airport nodes and connections between airports to a file.
         * It uses latitudes and longitudes to place nodes, so it ends up giving the shape of continents on the world map.
         *
