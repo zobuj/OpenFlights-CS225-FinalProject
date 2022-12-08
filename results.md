@@ -11,8 +11,7 @@ The “readRoutes” function takes in a string “path” and reads the .dat fi
 The “readAirports” function takes in a string “path” and reads the .dat file stored at the location given by the input parameter. It stores all the airport IDs and 4-letter codes in the “airports” and “airportCode” vectors. The function also stores 4-letters codes and airport IDs in the “airportMap” map. The 4-letter code is the key and the airport ID is the value. It also stores the latitudes and longitudes of airports in “latitudes” and “longitudes” maps. The key of these maps is the airport ID and the value stores the latitude/longitude of that airport. This function can be found in the ‘Project’ class in the corresponding ‘.cpp’ and ‘.h’ files in the ‘src’ folder.
 
 As mentioned in the project proposal, we said we will read the two .dat files locally on our machine and we will use it in order to make the graph’s nodes and edges. We were able to complete this successfully. Through these two file paths we are able to make all the data structures for our program.
-
-
+<br/><br/>
 
 
 **Graph:**
@@ -25,7 +24,7 @@ The graph maps an integer to a vector of integers. The key represents the airpor
 
 In our proposal, we said that we would be able to populate the graph while reading the data, which we successfully completed.
 
-
+<br/><br/>
 
 
 **Depth First Search:**
@@ -39,7 +38,7 @@ In the “Function Inputs” section of our project proposal, we initially plann
 Our DFS is implemented in the AirportConnection function with a private helper function called DFSHelper . Both functions can be found in the ‘Project’ class in the corresponding ‘.cpp’ and ‘.h’ files in the ‘src’ folder. 
 
 
-
+<br/><br/>
 
 **Dijkstra’s Algorithm:**
 
@@ -54,7 +53,7 @@ Minimum Spanning Tree for O’Hare as source airport
 
 
 
-
+<br/><br/>
 **Graph Image:**
 
 To output our minimum spanning tree (MST) as well as our full map, we decided to display our graphs using the png format. We wanted to do this because it can visualize the connections between the airports.
@@ -67,7 +66,7 @@ The graphical representation image, which represents a graph with all airports a
 
 Graph of Every Airport
 
-
+<br/><br/>
 
 
 **Test Suites:**
@@ -83,7 +82,7 @@ Although this work is not explicitly written in our project proposal, the assump
 Minimum Spanning Tree for one test sample
 
 
-
+<br/><br/>
 
 **Result:**
 
