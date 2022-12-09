@@ -173,7 +173,7 @@ void Project::printFullMap(string title) const
     if (result == 0) {
         cout << "Output graph saved as " << title << ".png" << endl;
     } else {
-        cout << "Failed to generate visual output graph using `neato`. Run `make install_graphviz` first to install dependencies." << endl;
+        cout << "Unable to generate graph using `neato`. Run `sudo apt install graphviz`." << endl;
     }
 }
 
@@ -304,7 +304,7 @@ double Project::shortestPath(string from, string to) {
     if (result == 0) {
         cout << "Output spanning tree for "<< source <<" saved as " << title << ".png" << endl;
     } else {
-        cout << "Failed to generate visual output graph using `neato`. Run `make install_graphviz` first to install dependencies." << endl;
+        cout << "Unable to generate graph using `neato`. Run `sudo apt install graphviz`." << endl;
     }
  }
 
@@ -328,7 +328,6 @@ void Project::printSinglePath(string name,string source,string dest){
     neatoFile<<"\""<<source<<"\" [color=\"red\",style=\"filled\"]\n";
     neatoFile<<"\""<<dest<<"\" [color=\"green\",style=\"filled\"]\n";
     vector<int> v=findPath(airportMap[source], airportMap[dest]);
-
     for (auto x = adjacencyListDijkstras.begin(); x != adjacencyListDijkstras.end(); ++x) {
         int x_first = (*x).first;
         if(getCode(x_first)!=source && getCode(x_first)!=dest && std::find(v.begin(), v.end(), x_first) != v.end()){
@@ -354,40 +353,34 @@ void Project::printSinglePath(string name,string source,string dest){
      if (result == 0) {
          cout << "Output saved as "+ title +".png" << endl;
      } else {
-         cout << "Failed to generate visual output graph using `neato`. Run `make install_graphviz` first to install dependencies." << endl;
+        cout << "Unable to generate graph using `neato`. Run `sudo apt install graphviz`." << endl;
      }
 }
 
 vector<int> Project::findPath(int source, int dest){
-    queue<int> q;
-    set<int>visited;
-    unordered_map<int,int> parent;
-    q.push(source);
-    while(!q.empty()){
-        int node=q.front();
-
-        q.pop();
-        if(node==dest){
-            vector<int>path;
-            int current=dest;
-            while(current!=source){
-                path.push_back(current);
-                
-                current=parent[current];
-                
+    stack<int> s;
+    unordered_map<int,int> prev;
+    set<int>visitedNodes;
+    s.push(source);
+    while(!s.empty()){
+        int n=s.top();
+        s.pop();
+        if(n==dest){
+            vector<int>singlepath;
+            int curr=dest;
+            while(curr!=source){
+                singlepath.push_back(curr);
+                curr=prev[curr];
             }
-            path.push_back(source);
-            std::reverse(path.begin(),path.end());
-            return path;
+            singlepath.push_back(source);
+            std::reverse(singlepath.begin(),singlepath.end());
+            return singlepath;
         }
-        visited.insert(node);
-        for(const auto & neighbor:adjacencyListDijkstras[node]){
-            if(visited.count(neighbor)==0){
-                q.push(neighbor);
-                
-                parent[neighbor]=node;
-                
-
+        visitedNodes.insert(n);
+        for (auto x = adjacencyListDijkstras[n].begin(); x != adjacencyListDijkstras[n].end(); ++x) {
+            if(!visitedNodes.count(*x)){
+                s.push(*x);
+                prev[*x]=n;
             }
         }
     }

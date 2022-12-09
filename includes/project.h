@@ -15,7 +15,7 @@
 #include <sstream>
 #include <math.h>
 #include <queue>
-
+#include <stack>
 
 
 using namespace std;
