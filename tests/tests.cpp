@@ -98,6 +98,40 @@ void TestsAdjacencyListsSimple() {
 }
 
 void testSimpleGraphOutput() {
+    std::ofstream neatoFile;
+    string filename ="suite.dot";
+    neatoFile.open(filename.c_str());
+    neatoFile<<"digraph {\n";
+    neatoFile<<"layout=neato;\n";
+    neatoFile<<"scale=0.5;\n";
+    neatoFile<<"\"AYGA\" [pos=\"20,-10!\"]\n";
+    neatoFile<<"\"AYMD\" [pos=\"20,0!\"]\n";
+    neatoFile<<"\"AYMH\" [pos=\"20,10!\"]\n";
+    neatoFile<<"\"AYNZ\" [pos=\"10,-10!\"]\n";
+    neatoFile<<"\"AYPY\" [pos=\"10,0!\"]\n";
+    neatoFile<<"\"AYWK\" [pos=\"10,10!\"]\n";
+    neatoFile<<"\"BGBW\" [pos=\"0,-10!\"]\n";
+    neatoFile<<"\"BGGH\" [pos=\"0,0!\"]\n";
+    neatoFile<<"\"BGSF\" [pos=\"0,10!\"]\n";
+    neatoFile<<"\"AYGA\"->\"AYPY\" [label=\"14.142136\"]\n";
+    neatoFile<<"\"AYMD\"->\"AYWK\" [label=\"14.142136\"]\n";
+    neatoFile<<"\"AYMH\"->\"BGBW\" [label=\"28.284271\"]\n";
+    neatoFile<<"\"AYNZ\"->\"BGGH\" [label=\"14.142136\"]\n";
+    neatoFile<<"\"BGSF\"->\"AYGA\" [label=\"28.284271\"]\n";
+    neatoFile<<"\"BGSF\"->\"AYMD\" [label=\"22.360680\"]\n";
+    neatoFile<<"\"BGSF\"->\"AYMH\" [label=\"20.000000\"]\n";
+    neatoFile<<"\"BGSF\"->\"AYNZ\" [label=\"22.360680\"]\n";
+    neatoFile<<"}";
+    neatoFile.close();
+    string command = "neato -Tpng suite.dot -o suite.png";
+    int result = system(command.c_str());
+
+    if (result == 0) {
+        cout << "Output graph saved as suite.png" << endl;
+    } else {
+        cout << "Unable to generate graph using `neato`. Run `sudo apt install graphviz`." << endl;
+    }
+
     Project init(getSimpleRoutesPath(),getSimpleAirportsPath(),"testsimple");
     init.printFullMap("testsimple");
     int val =system("diff testsimple.dot suite.dot");

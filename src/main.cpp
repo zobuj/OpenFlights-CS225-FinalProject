@@ -48,6 +48,7 @@ int main() {
         cout << "Shortest Distance from "<<source<<" to "<<stop<<" has a score of: "<<shortestdist_source_stop<<endl;
         double shortestdist_stop_dest = init.shortestPath(stop, dest);
         cout << "Shortest Distance from "<<stop<<" to "<<dest<<" has a score of: "<<shortestdist_stop_dest<<endl;
+        cout<< "Total distance between "<<source<<" and "<<dest<<": "<<(shortestdist_source_stop+shortestdist_stop_dest)<<endl;
      }
      
     return 0;
