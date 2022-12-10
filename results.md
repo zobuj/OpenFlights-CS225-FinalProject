@@ -51,6 +51,9 @@ Referring to the project proposal, we mentioned that Dijsktra’s algorithm woul
 
 Minimum Spanning Tree for O’Hare as source airport
 
+![MST](MST_KORD.png?raw=true "MST_KORD")
+
+
 
 
 <br/><br/>
@@ -66,6 +69,8 @@ The graphical representation image, which represents a graph with all airports a
 
 Graph of Every Airport
 
+![Graph](graph.png?raw=true "Full Map")
+
 <br/><br/>
 
 
@@ -80,6 +85,8 @@ Onto the functionality of the test suites, we decided to test the output of the 
 Although this work is not explicitly written in our project proposal, the assumption that our programs work as planned requires the need for test suites. If we wrote implementations without testing, our program might be faulty and if used in the real world, would cause further issues.
 
 Minimum Spanning Tree for one test sample
+
+![singlepath](singlepath_test.png?raw=true "singlepath")
 
 
 <br/><br/>
