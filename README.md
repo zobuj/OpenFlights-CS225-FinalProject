@@ -76,6 +76,10 @@ to the program.
 
 Follow instructions displayed on the console. When inputting airport codes, users can type the four-digit code or ICAO code of the airport in lowercase or uppercase. To find an airport’s ICAO code, we suggest using the following website: https://www.world-airport-codes.com. If a certain code is not available in the data set an error message will appear and we ask if you please enter a new code.
 
+# Results
+
+[Results.md](results.md)
+
 # Team Contract
 
 ## Communication
