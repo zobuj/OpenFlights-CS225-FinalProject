@@ -78,7 +78,8 @@ Follow instructions displayed on the console. When inputting airport codes, user
 
 # Results
 
-[Results.md](results.md)
+Visit the [Results.md](results.md) to view our written report.
+
 
 # Team Contract
 
